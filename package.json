@@ -815,6 +815,7 @@
 		]
 	},
 	"scripts": {
+		"test:docx": "node --test test/markdown/docxPackage.test.cjs",
 		"dev": "vite --mode=development",
 		"dev:web": "OFFICE_EXTENSION_TARGET=web vite --mode=development",
 		"lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
@@ -848,6 +849,7 @@
 		"vite-plugin-static-copy": "^4.1.1"
 	},
 	"dependencies": {
+		"@xmldom/xmldom": "0.9.12",
 		"@ant-design/icons": "^5.3.5",
 		"@codemirror/autocomplete": "^6.20.3",
 		"@codemirror/commands": "^6.10.3",
@@ -915,7 +917,7 @@
 		"save-svg-as-png": "^1.4.17",
 		"tar": "^7.5.16",
 		"utif": "^3.1.0",
-		"vscode-html-to-docx": "^1.1.3",
+		"vscode-html-to-docx": "1.1.3",
 		"xlsx": "^0.18.5",
 		"yaml": "^2.9.0"
 	}

@@ -3,6 +3,7 @@ const os = require("os")
 const path = require("path")
 const { pathToFileURL } = require("url")
 const { createOutline } = require("./outline")
+const { normalizeDocxPackage } = require("./docx-package")
 const isDev = process.argv.indexOf('--type=extensionHost') >= 0;
 
 export async function exportHtml(exportFilePath, data) {
@@ -11,12 +12,12 @@ export async function exportHtml(exportFilePath, data) {
 }
 
 export async function exportDocx(exportFilePath, data, config) {
-    console.log("[pretty-md-pdf] Exported to file: " + exportFilePath)
     const html = await replaceDynamicContentWithImages(data, config, exportFilePath)
     const htmlToDocx = require("vscode-html-to-docx");
     const exportTask = await htmlToDocx(html, '', {}, '');
-    const buffer = Buffer.from(await exportTask.arrayBuffer());
+    const buffer = await normalizeDocxPackage(Buffer.from(await exportTask.arrayBuffer()));
     fs.writeFileSync(exportFilePath, buffer)
+    console.log("[pretty-md-pdf] Exported to file: " + exportFilePath)
 }
 
 /*
