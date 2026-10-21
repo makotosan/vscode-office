@@ -11,3 +11,8 @@ yarn.lock
 pnpm-lock.yaml
 pnpm-workspace.yaml
 test/output
+.npm-cache/
+test/docx-validator/bin/
+test/docx-validator/obj/
+.dotnet-home/
+.nuget-packages/
