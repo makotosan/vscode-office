@@ -77,6 +77,10 @@ external links and conflicting references. Local SDK execution uses the installe
 CI uses .NET 8. Office2019 validation includes the SVG extension payload;
 compatibilityMode remains 15. Schema version and layout mode are separate.
 CI adds macOS to Windows/Linux structural tests; it does not run Word.
+The desktop extension production code bundle also passed locally, resolving
+dependencies from the existing installation. This was not a full asset/VSIX
+packaging run. GitHub returned no workflow runs or commit statuses at the initial
+PR check; remote CI success is not claimed.
 
 ## Acceptance still required
 
