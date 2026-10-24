@@ -1,6 +1,6 @@
 # Mac Word save crash: Issue #9
 
-Status: **candidate drawing fix; Mac Save As/reopen reported, overwrite acceptance pending** (2026-10-24 JST).
+Status: **B/D Mac overwrite and reopen acceptance passed; fresh extension export pending** (2026-10-24 JST).
 Related: #7 (merged PR #8), #4 (linked SVG), #6 (CI).
 
 ## Evidence and limits
@@ -130,3 +130,33 @@ Still required: on disposable B and D copies, edit then overwrite-save twice,
 close and reopen, record version/build, warnings, crash/no-crash and SVG/table
 appearance. Compare saved XML/media and repeat with a fresh extension export.
 Keep #9 and the draft PR open. No main merge is authorized by these test results.
+## Follow-up: B/D overwrite acceptance passed (2026-10-24)
+
+Source: https://github.com/makotosan/vscode-office/issues/9#issuecomment-6378106804
+This report supersedes the pending B/D overwrite checks above. Word for Mac
+16.106.1 (26021521), Microsoft 365, macOS Tahoe 26.5.2, Apple M4.
+
+On Finder duplicates of B and D, the user followed the supplied procedure:
+append text, Command-S, append more text, Command-S again, close, reopen, and
+inspect the entered text, table and two SVG images. Both cases passed without
+warnings, errors, crashes or reported display problems. These are user-reported
+manual results; individual character/image screenshots and saved DOCX copies
+were not independently inspected here. The Word build matches the original
+crash report.
+
+Both B (old SVG reference) and D (SVG extension) pass this acceptance. The new
+SVG reference is therefore not demonstrated necessary to prevent the crash;
+its causal role remains unproven. D now has positive overwrite/reopen evidence,
+not merely Save As evidence. No further B/D repetition is requested.
+
+A and C are deliberately unrepaired negative controls, not outputs of the fully
+normalized exporter. Their corruption/compatibility warnings should remain part
+of the isolation evidence; repairing those controls is not a release condition.
+E was not included in the follow-up overwrite test, and no pass is inferred.
+
+The remaining end-to-end acceptance is a fresh DOCX export from the updated
+extension, followed by the same edit/save/reopen procedure. Saved-copy XML/media
+comparison remains useful for diagnosis but has not been performed. #4 linked
+SVG acceptance and #6 VSIX distribution checks remain separate. Keep #9 open and
+PR #10 draft pending the fresh-export check and review of whether to retain the
+SVG representation change. No merge to main has been authorized.
