@@ -1,6 +1,6 @@
 # Mac Word save crash: Issue #9
 
-Status: **candidate drawing fix; Mac Word acceptance pending** (2026-10-24 JST).
+Status: **candidate drawing fix; Mac Save As/reopen reported, overwrite acceptance pending** (2026-10-24 JST).
 Related: #7 (merged PR #8), #4 (linked SVG), #6 (CI).
 
 ## Evidence and limits
@@ -98,3 +98,35 @@ main automatically.
 #4 external SVG display/update/security behavior remains unverified; preserving
 links is not proof of support. #6 Word acceptance and VSIX release validation
 remain separate requirements.
+
+## User-reported Mac results (2026-10-24)
+
+Source: https://github.com/makotosan/vscode-office/issues/9#issuecomment-6377927248
+These are the user's Word for Mac observations, not local automated test results.
+The report does not specify exact macOS/Word build numbers.
+
+| Case | Reported result |
+| --- | --- |
+| A | Corruption warning; user did not open or repair it. Saving untested. |
+| B | Save As and redisplay/reopen succeeded without error. |
+| C | Save As produced a compatibility/layout warning; redisplay/reopen succeeded. |
+| D | Save As and redisplay/reopen succeeded without error. |
+| E | Save As and redisplay/reopen succeeded without error. |
+
+B retains the old direct SVG references and succeeds too. The evidence therefore
+neither proves the drawing change necessary nor identifies direct SVG references
+as the cause of the original crash. D's success is positive compatibility evidence
+for the candidate, limited to the operations reported. Do not infer repeated
+in-place overwrite, full layout fidelity, or a fresh extension export from it.
+
+Read-only reinspection of the local case XML confirms B/D/E have layout mode 15
+and one table grid. C has no compatibilityMode and still has two table grids,
+along with the previously recorded property/section ordering defects. Its warning
+is consistent with the deliberately unrepaired compatibility settings, but there
+is no warning-to-element causal proof. Do not attribute C's warning to SVG or
+silently repair this negative-control case.
+
+Still required: on disposable B and D copies, edit then overwrite-save twice,
+close and reopen, record version/build, warnings, crash/no-crash and SVG/table
+appearance. Compare saved XML/media and repeat with a fresh extension export.
+Keep #9 and the draft PR open. No main merge is authorized by these test results.
