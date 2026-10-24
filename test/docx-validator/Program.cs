@@ -18,7 +18,9 @@ class Program
             try
             {
                 using var doc = WordprocessingDocument.Open(file, false);
-                var validator = new OpenXmlValidator(FileFormatVersions.Office2013) { MaxNumberOfErrors = 0 };
+                // SVGBlip is an Office 2019 extension. Validating as 2013 would
+                // only check the generic extension container, not its payload.
+                var validator = new OpenXmlValidator(FileFormatVersions.Office2019) { MaxNumberOfErrors = 0 };
                 foreach (var error in validator.Validate(doc))
                 {
                     count++;

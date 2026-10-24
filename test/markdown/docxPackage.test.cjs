@@ -13,6 +13,8 @@ const W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
 const R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 const REL = 'http://schemas.openxmlformats.org/package/2006/relationships'
 const CT = 'http://schemas.openxmlformats.org/package/2006/content-types'
+const A = 'http://schemas.openxmlformats.org/drawingml/2006/main'
+const SVG = 'http://schemas.microsoft.com/office/drawing/2016/SVG/main'
 const parse = xml => new DOMParser().parseFromString(xml, 'application/xml')
 const nodes = (doc, name) => Array.from(doc.getElementsByTagNameNS(W, name))
 const elements = node => Array.from(node.childNodes).filter(n => n.nodeType === 1)
@@ -112,6 +114,7 @@ for (const [label, ext, mime] of [['PNG', 'png', 'image/png'], ['JPEG', 'jpg', '
     const bytes = fs.readFileSync(path.resolve(__dirname, `../fixtures/docx/pixel.${ext}`))
     examples[label + ' image'] = `<p><img src="data:${mime};base64,${bytes.toString('base64')}"/></p>`
 }
+examples['table and multiple SVG and PNG'] = examples['thead and tbody'] + examples['SVG image'].repeat(2) + examples['PNG image']
 for (const [name, html] of Object.entries(examples)) test(`real generator: ${name}`, async () => {
     const generated = Buffer.from(await (await htmlToDocx(html, '', {}, '')).arrayBuffer())
     const normalized = await normalizeDocxPackage(generated)
@@ -121,6 +124,20 @@ for (const [name, html] of Object.entries(examples)) test(`real generator: ${nam
     const z = await JSZip.loadAsync(normalized)
     const doc = parse(await z.file('word/document.xml').async('string'))
     const body = nodes(doc, 'body')[0]
+    const rels = parse(await z.file('word/_rels/document.xml.rels').async('string'))
+    const targets = new Map(Array.from(rels.getElementsByTagNameNS(REL, 'Relationship')).map(e => [e.getAttribute('Id'), e.getAttribute('Target')]))
+    for (const blip of Array.from(doc.getElementsByTagNameNS(A, 'blip'))) {
+        const vectors = Array.from(blip.getElementsByTagNameNS(SVG, 'svgBlip'))
+        if (vectors.length) {
+            assert.equal(vectors.length, 1)
+            assert.equal(blip.hasAttributeNS(R, 'embed'), false)
+            assert.match(targets.get(vectors[0].getAttributeNS(R, 'embed')), /\.svg(?:\+xml)?$/)
+            assert.equal(vectors[0].parentNode.getAttribute('uri'), '{96DAC541-7B7A-43D3-8B79-37D633B846F1}')
+        } else {
+            assert.doesNotMatch(targets.get(blip.getAttributeNS(R, 'embed')), /\.svg(?:\+xml)?$/)
+        }
+    }
+    if (html.includes('image/svg+xml')) assert.ok(doc.getElementsByTagNameNS(SVG, 'svgBlip').length)
     assert.equal(names(body).at(-1), 'sectPr')
     for (const t of nodes(doc, 'tbl')) {
         assert.equal(elements(t).filter(n => n.localName === 'tblGrid').length, 1)
@@ -134,6 +151,100 @@ for (const [name, html] of Object.entries(examples)) test(`real generator: ${nam
         }
     }
     assert.equal(nodes(parse(await z.file('word/settings.xml').async('string')), 'compatSetting')[0].getAttributeNS(W, 'val'), '15')
+})
+
+test('SVG drawing normalization preserves vectors, raster images and package contents on a second pass', async () => {
+    const raw = Buffer.from(await (await htmlToDocx(examples['table and multiple SVG and PNG'], '', {}, '')).arrayBuffer())
+    const before = await JSZip.loadAsync(raw)
+    const once = await JSZip.loadAsync(await normalizeDocxPackage(raw))
+    const twice = await JSZip.loadAsync(await normalizeDocxPackage(await once.generateAsync({type: 'nodebuffer'})))
+    assert.deepEqual(Object.keys(once.files).sort(), Object.keys(before.files).sort())
+    for (const [name, entry] of Object.entries(once.files)) {
+        if (entry.dir) continue
+        assert.deepEqual(await entry.async('nodebuffer'), await twice.file(name).async('nodebuffer'), name)
+        if (name.startsWith('word/media/')) assert.deepEqual(await entry.async('nodebuffer'), await before.file(name).async('nodebuffer'), name)
+    }
+    const doc = parse(await once.file('word/document.xml').async('string'))
+    assert.equal(doc.getElementsByTagNameNS(SVG, 'svgBlip').length, 2)
+    assert.equal(Array.from(doc.getElementsByTagNameNS(A, 'blip')).filter(e => e.hasAttributeNS(R, 'embed')).length, 1)
+})
+
+test('normalizes embedded SVG in headers using that part\'s relationships and leaves linked SVG unchanged', async () => {
+    const z = await JSZip.loadAsync(await fixture())
+    z.file('word/header1.xml', `<w:hdr xmlns:w="${W}" xmlns:a="${A}" xmlns:r="${R}"><w:p><a:blip r:embed="image"/><a:blip r:link="external"/></w:p></w:hdr>`)
+    z.file('word/_rels/header1.xml.rels', `<Relationships xmlns="${REL}"><Relationship Id="image" Type="${R}/image" Target="media/test.svg+xml"/><Relationship Id="external" Type="${R}/image" Target="file:///tmp/test.svg" TargetMode="External"/></Relationships>`)
+    const out = await JSZip.loadAsync(await normalizeDocxPackage(await z.generateAsync({type: 'nodebuffer'})))
+    const doc = parse(await out.file('word/header1.xml').async('string'))
+    assert.equal(doc.getElementsByTagNameNS(SVG, 'svgBlip')[0].getAttributeNS(R, 'embed'), 'image')
+    assert.equal(doc.getElementsByTagNameNS(A, 'blip')[1].getAttributeNS(R, 'link'), 'external')
+})
+
+test('preserves an existing raster fallback with its SVG extension', async () => {
+    const z = await JSZip.loadAsync(Buffer.from(await (await htmlToDocx(examples['PNG image'], '', {}, '')).arrayBuffer()))
+    const doc = parse(await z.file('word/document.xml').async('string'))
+    const blip = doc.getElementsByTagNameNS(A, 'blip')[0]
+    const rasterId = blip.getAttributeNS(R, 'embed')
+    const list = doc.createElementNS(A, 'a:extLst')
+    const ext = doc.createElementNS(A, 'a:ext')
+    ext.setAttribute('uri', '{96DAC541-7B7A-43D3-8B79-37D633B846F1}')
+    const vector = doc.createElementNS(SVG, 'asvg:svgBlip')
+    vector.setAttributeNS(R, 'r:embed', 'vector')
+    ext.appendChild(vector); list.appendChild(ext); blip.appendChild(list)
+    const { XMLSerializer } = require('@xmldom/xmldom')
+    z.file('word/document.xml', new XMLSerializer().serializeToString(doc))
+    const rels = parse(await z.file('word/_rels/document.xml.rels').async('string'))
+    const rel = rels.createElementNS(REL, 'Relationship')
+    rel.setAttribute('Id', 'vector'); rel.setAttribute('Type', R + '/image'); rel.setAttribute('Target', 'media/vector.svg')
+    rels.documentElement.appendChild(rel)
+    z.file('word/_rels/document.xml.rels', new XMLSerializer().serializeToString(rels))
+    z.file('word/media/vector.svg', '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"/>')
+    const out = await JSZip.loadAsync(await normalizeDocxPackage(await z.generateAsync({type:'nodebuffer'})))
+    const result = parse(await out.file('word/document.xml').async('string'))
+    assert.equal(result.getElementsByTagNameNS(A, 'blip')[0].getAttributeNS(R, 'embed'), rasterId)
+    assert.equal(result.getElementsByTagNameNS(SVG, 'svgBlip')[0].getAttributeNS(R, 'embed'), 'vector')
+})
+
+test('refuses conflicting SVG extension rather than discarding a different image reference', async () => {
+    const z = await JSZip.loadAsync(Buffer.from(await (await htmlToDocx(examples['SVG image'], '', {}, '')).arrayBuffer()))
+    const doc = parse(await z.file('word/document.xml').async('string'))
+    const blip = doc.getElementsByTagNameNS(A, 'blip')[0]
+    const list = doc.createElementNS(A, 'a:extLst')
+    const ext = doc.createElementNS(A, 'a:ext')
+    ext.setAttribute('uri', '{96DAC541-7B7A-43D3-8B79-37D633B846F1}')
+    const vector = doc.createElementNS(SVG, 'asvg:svgBlip')
+    vector.setAttributeNS(R, 'r:embed', 'different')
+    ext.appendChild(vector); list.appendChild(ext); blip.appendChild(list)
+    z.file('word/document.xml', new (require('@xmldom/xmldom').XMLSerializer)().serializeToString(doc))
+    await assert.rejects(normalizeDocxPackage(await z.generateAsync({type: 'nodebuffer'})), /conflicting SVG drawing/)
+})
+
+test('diagnostic matrix isolates drawing changes and keeps the source unchanged', async () => {
+    const { execFileSync } = require('node:child_process')
+    const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'docx-matrix-'))
+    try {
+        const raw = Buffer.from(await (await htmlToDocx(examples['table and multiple SVG and PNG'], '', {}, '')).arrayBuffer())
+        const input = path.join(temp, 'source.docx')
+        const output = path.join(temp, 'cases')
+        fs.writeFileSync(input, raw)
+        const script = path.resolve(__dirname, 'makeMacSaveCases.cjs')
+        execFileSync(process.execPath, [script, input, output])
+        assert.deepEqual(fs.readFileSync(input), raw)
+        assert.deepEqual(fs.readFileSync(path.join(output, 'A-original.docx')), raw)
+        const docs = {}
+        for (const name of ['B-issue7-baseline', 'C-svg-only', 'D-combined', 'E-without-svg']) {
+            const z = await JSZip.loadAsync(fs.readFileSync(path.join(output, name + '.docx')))
+            docs[name] = parse(await z.file('word/document.xml').async('string'))
+        }
+        assert.equal(docs['B-issue7-baseline'].getElementsByTagNameNS(SVG, 'svgBlip').length, 0)
+        assert.equal(docs['C-svg-only'].getElementsByTagNameNS(SVG, 'svgBlip').length, 2)
+        assert.equal(docs['D-combined'].getElementsByTagNameNS(SVG, 'svgBlip').length, 2)
+        assert.equal(docs['E-without-svg'].getElementsByTagNameNS(A, 'blip').length, 1)
+        const original = parse(await (await JSZip.loadAsync(raw)).file('word/document.xml').async('string'))
+        assert.deepEqual(names(nodes(docs['C-svg-only'], 'tbl')[0]), names(nodes(original, 'tbl')[0]))
+        assert.equal(nodes(docs['B-issue7-baseline'], 'tblGrid').length, 1)
+        assert.throws(() => execFileSync(process.execPath, [script, input, output], {stdio:'pipe'}))
+        assert.deepEqual(fs.readFileSync(input), raw)
+    } finally { fs.rmSync(temp, {recursive: true, force: true}) }
 })
 
 test('exportDocx writes a normalized package through the existing command path', async () => {
@@ -173,4 +284,30 @@ test('exportDocx preserves an existing file if package validation fails', async 
         assert.equal(fs.readFileSync(output, 'utf8'), 'existing content')
         assert.deepEqual(logs, [])
     } finally { fs.rmSync(temp, {recursive: true, force: true}) }
+})
+
+test('minimal SVG suffix cases differ only in part name and associated declarations', async () => {
+    const {makeSvgNameCases} = require('./makeSvgNameCases.cjs')
+    const svg = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><text x="1" y="6">A</text></svg>')
+    const png = fs.readFileSync(path.resolve(__dirname, '../fixtures/docx/pixel.png'))
+    const cases = await makeSvgNameCases(svg, png)
+    const fixtureDir = process.env.DOCX_FIXTURE_DIR || path.resolve(__dirname, '../output/docx')
+    fs.mkdirSync(fixtureDir, {recursive:true})
+    for (const [name, bytes] of cases) fs.writeFileSync(path.join(fixtureDir, 'svg-suffix-' + name), bytes)
+    const a = await JSZip.loadAsync(cases.get('01-original-suffix.docx'), {checkCRC32:true})
+    const b = await JSZip.loadAsync(cases.get('02-standard-suffix.docx'), {checkCRC32:true})
+    assert.deepEqual(await a.file('word/media/vector.svg+xml').async('nodebuffer'), svg)
+    assert.deepEqual(await b.file('word/media/vector.svg').async('nodebuffer'), svg)
+    for (const [name, entry] of Object.entries(a.files)) {
+        if (entry.dir || name === 'word/media/vector.svg+xml') continue
+        const first = await entry.async('nodebuffer')
+        const second = await b.file(name).async('nodebuffer')
+        if (name === '[Content_Types].xml' || name === 'word/_rels/document.xml.rels') {
+            assert.equal(first.toString().replaceAll('vector.svg+xml','vector.svg'), second.toString(), name)
+        } else assert.deepEqual(first, second, name)
+    }
+    const doc = parse(await b.file('word/document.xml').async('string'))
+    assert.equal(doc.getElementsByTagNameNS(SVG, 'svgBlip').length, 1)
+    assert.equal(doc.getElementsByTagNameNS(A, 'blip')[0].hasAttributeNS(R, 'embed'), true)
+    assert.equal(nodes(doc, 'tbl').length, 0)
 })
