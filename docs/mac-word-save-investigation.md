@@ -235,3 +235,23 @@ alone cannot prove compatibility with this Mac renderer.
 The user has been asked whether to test a package retaining original SVG bytes
 while adding PNG preview parts. No PNG conversion/fallback has been introduced
 without that answer. Original files remain unchanged. Keep PR draft and #9 open.
+
+### Approved SVG + PNG preview diagnostic
+
+The user explicitly authorized testing SVG retention with PNG previews. Created
+`F:/Apps/vscode-office/investigation-issue9-art18/article18-svg-with-png-preview.docx`
+from the failed packaged-code diagnostic. It preserves the text and both original
+SVG byte streams and existing SVG extension references. Each main a:blip now
+references a newly added PNG image relationship. PNGs come from the supplied
+assets with matching basenames and dimensions (1000x575 and 1200x620); they were
+not newly rasterized and may differ in typography from native SVG rendering.
+The source previews were visually inspected. This tests the reference/fallback
+configuration, not a new SVG renderer or a claim of pixel-identical previews.
+
+Checks passed: ZIP CRC, relationship/Content Type checks, 2 preserved SVGs plus
+2 PNG previews, unchanged document text, normalization idempotence and Office2019
+SDK validation (0 errors). Output size: 299331 bytes. Private audit hashes and
+asset mapping are stored beside the diagnostic. Mac Word display/save acceptance
+is pending. First scroll through both figures; only if display is stable should
+the user edit, overwrite-save twice, close and reopen. No new VSIX or production
+code change is claimed from this local diagnostic alone.
