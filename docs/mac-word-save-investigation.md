@@ -1,6 +1,6 @@
 # Mac Word save crash: Issue #9
 
-Status: **B/D Mac overwrite and reopen acceptance passed; fresh extension export pending** (2026-10-24 JST).
+Status: **unresolved; article18 SVG + PNG preview also crashes on second save** (2026-10-24 JST).
 Related: #7 (merged PR #8), #4 (linked SVG), #6 (CI).
 
 ## Evidence and limits
@@ -255,3 +255,49 @@ asset mapping are stored beside the diagnostic. Mac Word display/save acceptance
 is pending. First scroll through both figures; only if display is stable should
 the user edit, overwrite-save twice, close and reopen. No new VSIX or production
 code change is claimed from this local diagnostic alone.
+
+## SVG + PNG preview retest fails on second save
+
+The user reports a crash on the second save after two text additions. The new
+log records 2026-10-24 12:15:15 JST, Word 16.106.1.26021521, EXC_BAD_ACCESS /
+KERN_INVALID_ADDRESS, thread 0. The top frames are CoreGraphics display-list
+state/entry equality, followed by AppKit and QuartzCore drawing/layer commit.
+This differs from the earlier exception stacks. The save operation was the user
+trigger, but the stack does not establish that ZIP/XML serialization caused it.
+The screenshot PDF shows the Microsoft Error Reporting dialog without further
+technical detail.
+
+A Word-saved DOCX was also available in the supplied test folder. Read-only
+inspection shows a valid ZIP and zero Office2019 SDK errors. It contains both
+reported test-text additions. Word renumbered image relationships, retained the
+SVG extensions and both original SVG byte streams, and regenerated both PNGs.
+The SVG parts still have .svg+xml extensions. Persisted edits do not prove the
+second save completed successfully at the UI level; they do show that the disk
+copy is not simply the untouched diagnostic input.
+
+Therefore, supplying a PNG preview is not sufficient to avoid the reported
+crash. It does not disable the SVG renderer: SVG references are still active.
+No further production fix or replacement VSIX is justified on this evidence.
+Do not claim the defect solved or attribute it solely to stale extension code.
+
+Created a diagnostic control from the user-provided Word-saved copy:
+`F:/Apps/vscode-office/investigation-issue9-art18/preview-save-retest/article18-png-display-control.docx`.
+Only the two SVG drawing-extension entries are removed from document.xml. The
+main PNG image references remain. All other package file bytes, including SVG
+source bytes and PNG previews, are retained; text is unchanged. ZIP CRC and
+Office2019 SDK validation pass (0 errors). This is a raster-display diagnostic,
+not a finalized SVG export behavior. Word may remove unreferenced SVG data on
+subsequent saves, so this control is not an archival copy of vector originals.
+Original input and source SVGs remain separately preserved.
+
+Next discriminators: test display/edit/save/reopen on the PNG-display control;
+then, if necessary, insert the original first SVG into a blank document using
+Word's own UI and repeat two edits/saves. The latter bypasses this exporter and
+separates native SVG/Word/macOS behavior from generated package structure. Neither
+result alone can identify a specific renderer defect. No additional test is
+claimed complete until the user reports its result.
+
+Microsoft release notes show later Word builds after 16.106.1, but the reviewed
+notes do not identify a fix for this exact CoreGraphics/SVG crash. No guaranteed
+update remedy is claimed:
+https://learn.microsoft.com/en-us/officeupdates/release-notes-office-for-mac
