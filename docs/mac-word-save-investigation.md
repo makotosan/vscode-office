@@ -160,3 +160,50 @@ comparison remains useful for diagnosis but has not been performed. #4 linked
 SVG acceptance and #6 VSIX distribution checks remain separate. Keep #9 open and
 PR #10 draft pending the fresh-export check and review of whether to retain the
 SVG representation change. No merge to main has been authorized.
+## New article18 save failure (2026-10-24)
+
+The user supplied a new DOCX, its source Markdown/SVGs and a crash log, and
+confirmed export with Office Viewer 4.2.5 and failure during overwrite-save.
+This is a new failing input: the earlier B/D acceptance does not generalize to it.
+Keep the candidate unmerged and do not claim the original defect resolved.
+
+Input DOCX SHA-256:
+`1aafbd34a42c2757932e2d06f83f442840307b0a3567d238d170efc66b97bb1c`.
+The input has 2 tables, 34 cells and 2 SVG drawings. CRC and Office2019 SDK
+validation pass. Both embedded SVG byte streams match their supplied source
+assets. Table grids and mode 15 corrections are present, but SVG drawings use
+bare a:blip references: no svgBlip extension is present.
+
+The new log reports Word 16.106.1.26021521 at 10:35:56 JST, EXC_BAD_ACCESS /
+KERN_PROTECTION_FAILURE on thread 0 in Microsoft Word. This differs from the
+previous thread-30 SIGTRAP/Gfx/OfficeArt signature. Unsymbolicated frames do not
+identify a specific XML element or establish that the crashes share a cause.
+
+Rechecking the distributed VSIX (4.2.5, SHA-256
+`310853f5ec35c0157a8e2f3414c8286a4a4dec2d0103a8b1d263492357c10954`)
+confirmed that its actual bundled normalizer produces 2 svgBlip elements for this
+same input. The bundled module was executed from the installed-format archive,
+not substituted with the source implementation. The resulting diagnostic DOCX
+has zero SDK errors. Source-pipeline Markdown-to-DOCX export, with a stubbed VS
+Code Uri and the existing template assets, also produces 2 SVG extensions and
+passes SDK validation. This is not an interactive VS Code or Mac Word test.
+
+There is an unresolved mismatch between the supplied DOCX representation and
+the distributed runtime's output. User-reported version 4.2.5 is recorded as
+such; do not override it with an assumption that the wrong version was installed.
+A stale extension host, different active exporter, or file selection/history is
+a hypothesis, not a proven cause. A full VS Code quit/restart followed by a new,
+distinct output filename is the next end-to-end discriminator.
+
+Private diagnostic copies are in
+`F:/Apps/vscode-office/investigation-issue9-art18/` (not committed):
+- `article18-packaged-4.2.5.docx`: supplied sample processed by actual VSIX code;
+  original text and SVG bytes retained.
+- `article18-fresh-export.docx`: source Markdown exported through current code.
+- `isolation-cases/E-without-svg.docx`: comparison without SVG drawings/media.
+
+Mac acceptance for these new copies is pending. First test the packaged-code
+copy by editing, overwrite-saving and reopening. If it still crashes, compare
+with the no-SVG diagnostic copy to isolate graphics. Do not change SVG content,
+rasterize images or publish the private manuscript/logs without authorization.
+No new production fix is justified by the present evidence alone.
