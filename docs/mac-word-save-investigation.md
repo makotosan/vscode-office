@@ -207,3 +207,31 @@ copy by editing, overwrite-saving and reopening. If it still crashes, compare
 with the no-SVG diagnostic copy to isolate graphics. Do not change SVG content,
 rasterize images or publish the private manuscript/logs without authorization.
 No new production fix is justified by the present evidence alone.
+
+## Retest: vector-only candidate crashes during first SVG display
+
+The user tested the packaged-code diagnostic DOCX on Word for Mac and reports
+that scrolling to the first MR/CRA SVG causes a crash before any save. The
+screenshot PDF shows the Microsoft Error Reporting dialog; no additional error
+code is visible in that screenshot. The new supplied log records 2026-10-24
+10:56:23 JST, Word 16.106.1.26021521, EXC_BAD_ACCESS / KERN_INVALID_ADDRESS,
+thread 0, mso40ui with Gfx, OfficeArt and CALayer display frames. This supports
+prioritizing the drawing path but does not isolate a particular SVG/XML feature.
+
+The exact distributed-code SVG-only candidate now has a reported rendering
+failure; this cannot be explained away solely by a stale extension host or a
+wrong active export version. Its earlier schema validation success was not
+Word compatibility proof. Do not recommend 4.2.5 as a validated fix or claim
+that SVG extension references alone resolve #9.
+
+Microsoft's Pictures overview specifies retaining SVG references in svgBlip and
+putting a rasterized PNG version in the main blip for backward compatibility:
+https://learn.microsoft.com/en-us/openspecs/office_standards/ms-odrawxml/7e1f1524-1569-4aa2-a6c9-aab2d855bd48
+The current candidate deliberately lacks that PNG preview. The difference is a
+new concrete interoperability hypothesis, not proof of the crash cause. Its
+first SVG contains text, CSS font classes, rectangles and paths; well-formedness
+alone cannot prove compatibility with this Mac renderer.
+
+The user has been asked whether to test a package retaining original SVG bytes
+while adding PNG preview parts. No PNG conversion/fallback has been introduced
+without that answer. Original files remain unchanged. Keep PR draft and #9 open.
