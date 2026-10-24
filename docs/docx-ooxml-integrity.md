@@ -54,10 +54,10 @@ npm run build
 ```
 
 The tests use generated/synthetic content and tiny PNG/JPEG fixtures. The user's
-original document is deliberately not committed. The test command saves nine
+original document is deliberately not committed. The test command saves ten
 real-generator DOCX fixtures under the ignored `test/output/docx` directory.
-CI runs them on Windows and Linux, validates every fixture with Open XML SDK
-3.3.0 against the Office 2013 feature set (mode 15), and uploads the fixtures.
+CI runs them on Windows, Linux and macOS, validates every fixture with Open XML SDK
+3.3.0 against the Office 2019 feature set (layout mode remains 15), and uploads the fixtures.
 Tests also check that the reported five-row shape preserves text, widths,
 borders, images and relationships, repeated normalization is stable, and invalid
 packages cannot overwrite an existing output.
@@ -96,3 +96,6 @@ and build:
 compatibility investigation. #5 feeds generated assets into that same pipeline.
 #2's embedded compatibility requirement preserves behavior/content, not malformed
 OOXML bytes. #6 must include #7's Word acceptance before release.
+
+For the subsequent Mac save crash and SVG drawing changes, see
+[Issue #9 investigation](mac-word-save-investigation.md).

@@ -7,6 +7,9 @@ const R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
 const REL = 'http://schemas.openxmlformats.org/package/2006/relationships'
 const CT = 'http://schemas.openxmlformats.org/package/2006/content-types'
 const WORD = 'http://schemas.microsoft.com/office/word'
+const A = 'http://schemas.openxmlformats.org/drawingml/2006/main'
+const SVG = 'http://schemas.microsoft.com/office/drawing/2016/SVG/main'
+const SVG_EXTENSION = '{96DAC541-7B7A-43D3-8B79-37D633B846F1}'
 const orders = {
     pPr: 'pStyle keepNext keepLines pageBreakBefore framePr widowControl numPr suppressLineNumbers pBdr shd tabs suppressAutoHyphens kinsoku wordWrap overflowPunct topLinePunct autoSpaceDE autoSpaceDN bidi adjustRightInd snapToGrid spacing ind contextualSpacing mirrorIndents suppressOverlap jc textDirection textAlignment textboxTightWrap outlineLvl divId cnfStyle rPr sectPr pPrChange',
     tcPr: 'cnfStyle tcW gridSpan hMerge vMerge tcBorders shd noWrap tcMar textDirection tcFitText vAlign hideMark headers cellIns cellDel cellMerge tcPrChange',
@@ -145,6 +148,39 @@ function contentTypes(doc) {
     return part => overrides.get('/' + part) || defaults.get(part.split('.').pop())
 }
 
+// SVG is an Office drawing extension, not a raster blip. Keep the original
+// vector bytes; do not manufacture a PNG fallback or change external links.
+function normalizeSvgDrawings(doc, imageParts, typeOf) {
+    for (const blip of Array.from(doc.getElementsByTagNameNS(A, 'blip'))) {
+        const id = blip.getAttributeNS(R, 'embed')
+        const part = imageParts.get(id)
+        if (!part || typeOf(part) !== 'image/svg+xml') continue
+        let list = children(blip, A, 'extLst')[0]
+        const extensions = list ? children(list, A, 'ext').filter(e => e.getAttribute('uri') === SVG_EXTENSION) : []
+        if (extensions.length) {
+            const vectors = children(extensions[0], SVG, 'svgBlip')
+            if (extensions.length !== 1 || vectors.length !== 1 ||
+                vectors[0].getAttributeNS(R, 'embed') !== id || vectors[0].hasAttributeNS(R, 'link')) {
+                throw new Error('DOCX: conflicting SVG drawing references')
+            }
+        } else {
+            if (!list) {
+                list = doc.createElementNS(A, 'a:extLst')
+                blip.appendChild(list)
+            }
+            const extension = doc.createElementNS(A, 'a:ext')
+            extension.setAttribute('uri', SVG_EXTENSION)
+            const vector = doc.createElementNS(SVG, 'asvg:svgBlip')
+            vector.setAttributeNS(R, 'r:embed', id)
+            extension.appendChild(vector)
+            list.appendChild(extension)
+        }
+        // No raster fallback was supplied. Office uses the SVG extension;
+        // consumers without SVG support cannot display this vector-only image.
+        blip.removeAttributeNS(R, 'embed')
+    }
+}
+
 /** Normalize the generated package once, before saving (shared by image modes).
  * This is a targeted generator workaround, not a general document repair tool.
  */
@@ -191,10 +227,12 @@ async function normalizeDocxPackage(buffer) {
         }
     }
     const relationships = new Map()
+    const imagePartsBySource = new Map()
     for (const [name, doc] of docs) {
         if (!name.endsWith('.rels')) continue
         const source = name === '_rels/.rels' ? '' : path.join(path.dirname(path.dirname(name)), path.basename(name, '.rels'))
         const ids = new Set()
+        const imageParts = new Map()
         for (const rel of children(doc.documentElement, REL, 'Relationship')) {
             const id = rel.getAttribute('Id')
             if (!id || ids.has(id)) throw new Error(`DOCX: duplicate or missing Relationship Id in ${name}`)
@@ -202,8 +240,15 @@ async function normalizeDocxPackage(buffer) {
             if (rel.getAttribute('TargetMode') === 'External') continue
             const target = path.resolve('/', path.dirname(source), decodeURIComponent(rel.getAttribute('Target'))).slice(1)
             if (!zip.file(target)) throw new Error(`DOCX: missing Relationship target ${target}`)
+            if (rel.getAttribute('Type') === R + '/image') imageParts.set(id, target)
         }
         relationships.set(source, ids)
+        imagePartsBySource.set(source, imageParts)
+    }
+    for (const [name, doc] of docs) {
+        if (name.startsWith('word/') && !name.endsWith('.rels')) {
+            normalizeSvgDrawings(doc, imagePartsBySource.get(name) || new Map(), typeOf)
+        }
     }
     for (const [name, doc] of docs) {
         for (const element of Array.from(doc.getElementsByTagName('*'))) {
