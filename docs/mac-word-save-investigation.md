@@ -1,6 +1,6 @@
 # Mac Word save crash: Issue #9
 
-Status: **unresolved; article18 SVG + PNG preview also crashes on second save** (2026-10-24 JST).
+Status: **unresolved for SVG rendering; PNG-display control passed on Mac** (2026-10-24 JST).
 Related: #7 (merged PR #8), #4 (linked SVG), #6 (CI).
 
 ## Evidence and limits
@@ -301,3 +301,29 @@ Microsoft release notes show later Word builds after 16.106.1, but the reviewed
 notes do not identify a fix for this exact CoreGraphics/SVG crash. No guaranteed
 update remedy is claimed:
 https://learn.microsoft.com/en-us/officeupdates/release-notes-office-for-mac
+## PNG-display control passed on Mac
+
+The user reports that the PNG-display control had no problem in the Mac test,
+in response to the requested display, two edit/save operations and reopen test.
+The report is a general success statement, not a separate screenshot for each
+operation. No new Word/macOS version was specified in this follow-up.
+
+The returned DOCX was inspected read-only. SHA-256:
+`1262cb86f9295cdf95b32f1fcea22ca33203a6aa8138aa6ef930e41cabdacedf`.
+It passes ZIP CRC and Office2019 SDK validation (0 errors), retains two tables,
+has no svgBlip drawing reference, and contains only the two PNG media parts.
+Word removed the unreferenced SVG source parts on saving, as anticipated. Thus
+retaining unused vector bytes in the initial control is not durable SVG storage.
+The original source SVG files remain separately preserved.
+
+This positive control, compared with the failed SVG-only and SVG+PNG-preview
+cases, prioritizes the native SVG rendering path for the tested article18 input.
+It does not identify the responsible SVG feature or prove a Word/macOS defect;
+other unisolated differences and application state may still matter. PNG preview
+presence alone was insufficient because SVG remained active in that candidate.
+
+No product behavior has silently changed to raster-only. The user was asked to
+choose between adding an explicit PNG export mode with separately retained source
+SVGs, or continuing investigation while preserving embedded SVG rendering. The
+prior permission for retaining SVG plus PNG preview is not treated as permission
+to replace the final output with PNG. Keep #9 open and PR draft; no main merge.
