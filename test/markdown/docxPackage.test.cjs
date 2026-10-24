@@ -285,3 +285,29 @@ test('exportDocx preserves an existing file if package validation fails', async 
         assert.deepEqual(logs, [])
     } finally { fs.rmSync(temp, {recursive: true, force: true}) }
 })
+
+test('minimal SVG suffix cases differ only in part name and associated declarations', async () => {
+    const {makeSvgNameCases} = require('./makeSvgNameCases.cjs')
+    const svg = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><text x="1" y="6">A</text></svg>')
+    const png = fs.readFileSync(path.resolve(__dirname, '../fixtures/docx/pixel.png'))
+    const cases = await makeSvgNameCases(svg, png)
+    const fixtureDir = process.env.DOCX_FIXTURE_DIR || path.resolve(__dirname, '../output/docx')
+    fs.mkdirSync(fixtureDir, {recursive:true})
+    for (const [name, bytes] of cases) fs.writeFileSync(path.join(fixtureDir, 'svg-suffix-' + name), bytes)
+    const a = await JSZip.loadAsync(cases.get('01-original-suffix.docx'), {checkCRC32:true})
+    const b = await JSZip.loadAsync(cases.get('02-standard-suffix.docx'), {checkCRC32:true})
+    assert.deepEqual(await a.file('word/media/vector.svg+xml').async('nodebuffer'), svg)
+    assert.deepEqual(await b.file('word/media/vector.svg').async('nodebuffer'), svg)
+    for (const [name, entry] of Object.entries(a.files)) {
+        if (entry.dir || name === 'word/media/vector.svg+xml') continue
+        const first = await entry.async('nodebuffer')
+        const second = await b.file(name).async('nodebuffer')
+        if (name === '[Content_Types].xml' || name === 'word/_rels/document.xml.rels') {
+            assert.equal(first.toString().replaceAll('vector.svg+xml','vector.svg'), second.toString(), name)
+        } else assert.deepEqual(first, second, name)
+    }
+    const doc = parse(await b.file('word/document.xml').async('string'))
+    assert.equal(doc.getElementsByTagNameNS(SVG, 'svgBlip').length, 1)
+    assert.equal(doc.getElementsByTagNameNS(A, 'blip')[0].hasAttributeNS(R, 'embed'), true)
+    assert.equal(nodes(doc, 'tbl').length, 0)
+})

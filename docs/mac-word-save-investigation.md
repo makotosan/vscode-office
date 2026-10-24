@@ -327,3 +327,36 @@ choose between adding an explicit PNG export mode with separately retained sourc
 SVGs, or continuing investigation while preserving embedded SVG rendering. The
 prior permission for retaining SVG plus PNG preview is not treated as permission
 to replace the final output with PNG. Keep #9 open and PR draft; no main merge.
+## SVG-preserving investigation continues: minimal suffix pair
+
+The user selected continued investigation with embedded SVG rendering retained,
+rather than adding a PNG-only output mode. Do not implement a raster-only product
+fallback on the basis of the successful PNG control.
+
+Added `test/markdown/makeSvgNameCases.cjs`: given SVG and PNG preview inputs, it
+creates a single-image document pair. Both embed exactly the same SVG bytes and
+PNG bytes and use identical drawing XML, synthetic text, dimensions, layout and
+SVG extension references. The sole intended variable is the internal SVG part
+suffix: `.svg+xml` versus `.svg`, with corresponding relationship target and
+Content Type override names updated consistently. This tests the generator's
+unconventional media suffix without mixing font/style or document-content edits.
+It is an interoperability hypothesis, not a confirmed cause.
+
+The private MR/CRA cases are in
+`F:/Apps/vscode-office/investigation-issue9-art18/minimal-svg-suffix/`:
+- `01-original-suffix.docx` uses the current `.svg+xml` suffix.
+- `02-standard-suffix.docx` uses `.svg`.
+
+Both contain a PNG preview plus the untouched source SVG. Both pass Office2019
+SDK validation. Node tests now total 29; the new regression asserts byte identity
+of all other package content and exact SVG preservation. It writes synthetic
+suffix fixtures into the CI SDK fixture directory, bringing generated fixtures
+to 12. The private manuscript/SVG is not committed.
+
+Mac test order: open 01 and confirm the image; if stable, append text/save, append
+again/save, close and reopen. Repeat with 02. Report the phase of any failure.
+If only 02 succeeds, the suffix becomes a strong candidate requiring a full
+article18 retest before production changes. If both fail, proceed to SVG font/
+text-rendering isolation and a Word-native insertion reference. If both succeed,
+the minimal image alone is insufficient and document/state interactions remain.
+No product code or replacement VSIX is changed yet.

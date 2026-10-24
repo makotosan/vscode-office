@@ -54,7 +54,7 @@ npm run build
 ```
 
 The tests use generated/synthetic content and tiny PNG/JPEG fixtures. The user's
-original document is deliberately not committed. The test command saves ten
+original document is deliberately not committed. The test command saves twelve
 real-generator DOCX fixtures under the ignored `test/output/docx` directory.
 CI runs them on Windows, Linux and macOS, validates every fixture with Open XML SDK
 3.3.0 against the Office 2019 feature set (layout mode remains 15), and uploads the fixtures.
