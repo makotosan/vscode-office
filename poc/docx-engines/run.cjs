@@ -5,7 +5,7 @@ const {performance}=require('node:perf_hooks');
 const {fixtures}=require('./fixtures.cjs');
 const {prepare,documentHtml,hash}=require('./input.cjs');
 const {inspect}=require('./inspect.cjs');
-const engines={legacy:'./legacy.cjs'};
+const engines={legacy:'./legacy.cjs',docxjs:'./docxjs.cjs'};
 function argumentsFor(argv) {
   const options={engine:'legacy',fixture:'table-five-rows','image-mode':'embedded',output:path.join(__dirname,'output')};
   for(const arg of argv) {
@@ -32,6 +32,11 @@ async function runCase(name,options) {
     record.inputHash=input.inputHash;record.sourceHash=input.sourceHash;
     const generation=performance.now();
     const result=await require(engines[options.engine]).generate(input);
+    if(result.model)fs.writeFileSync(path.join(directory,'model.json'),JSON.stringify(result.model,null,2));
+    if(input.imageMode==='linked') {
+      fs.mkdirSync(path.join(directory,'assets'),{recursive:true});
+      for(const a of input.assets)fs.writeFileSync(path.join(directory,'assets',`${a.id}.${a.mime==='image/jpeg'?'jpg':a.mime==='image/svg+xml'?'svg':'png'}`),a.bytes);
+    }
     record.generationMs=performance.now()-generation;
     const bytes=Buffer.from(result.bytes);
     fs.writeFileSync(path.join(directory,'raw.docx'),bytes);
