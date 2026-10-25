@@ -6,6 +6,7 @@ const {performance}=require('node:perf_hooks');
 const {fixtures}=require('./fixtures.cjs');
 const {prepare,documentHtml}=require('./input.cjs');
 const {runCase,engines}=require('./run.cjs');
+const {acceptanceStatus}=require('./acceptance.cjs');
 async function evaluate({output=path.join(__dirname,'output/evaluation'),chromium,validator,dotnet='dotnet',repeat=1}={}) {
  if(!Number.isInteger(repeat)||repeat<1)throw new Error('repeat must be a positive integer');
  fs.mkdirSync(output,{recursive:true});
@@ -34,9 +35,8 @@ async function evaluate({output=path.join(__dirname,'output/evaluation'),chromiu
     }
    }
    // The runner's structural pass cannot become a product/Word acceptance pass.
-   record.overallStatus=record.status==='unsupported'?'unsupported':!record.final?'generation-fail':
-     Object.values(record.sdk.final||{}).some(s=>s.status==='fail'||s.status==='error')?'schema-fail':
-     record.status==='fail'?'fidelity-or-integrity-fail':'word-pending';
+   record.schema=validator&&Object.keys(record.sdk).length?'executed':'not-run';
+   record.overallStatus=acceptanceStatus(record);
    fs.writeFileSync(path.join(dir,'result.json'),JSON.stringify(record,null,2));records.push(record);
   }
  }

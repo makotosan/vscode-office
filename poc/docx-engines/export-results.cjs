@@ -1,5 +1,6 @@
 const fs=require('node:fs');
 const path=require('node:path');
+const {acceptanceStatus}=require('./acceptance.cjs');
 function exportResults() {
  const full=JSON.parse(fs.readFileSync(path.join(__dirname,'output/evaluation/comparison.json'),'utf8'));
  const bundles=JSON.parse(fs.readFileSync(path.join(__dirname,'output/bundles.json'),'utf8'));
@@ -7,7 +8,7 @@ function exportResults() {
   error:r.error?.replaceAll(__dirname,'<poc>'),generationMs:r.generationMs,totalMs:r.totalMs,preparationMs:r.preparationMs,diagnostics:r.diagnostics,fidelityErrors:r.fidelityErrors,
   raw:r.raw&&{sha256:r.raw.sha256,bytes:r.raw.bytes,errors:r.raw.errors},final:r.final&&{sha256:r.final.sha256,bytes:r.final.bytes,errors:r.final.errors,compatibilityMode:r.final.compatibilityMode},
   postprocess:r.postprocess,sdk:r.sdk,word:r.word,
-  overallStatus:r.status==='unsupported'?'unsupported':!r.final?'generation-fail':Object.values(r.sdk?.final||{}).some(s=>s.status==='fail'||s.status==='error')?'schema-fail':r.status==='fail'?'fidelity-or-integrity-fail':'word-pending'}));
+  overallStatus:acceptanceStatus(r)}));
  const summary={generatedAt:full.generatedAt,OS:full.OS,CPU:full.CPU,node:full.node,repeat:full.repeat,
   runtimeNote:'Local SDK 3.3.0 ran on .NET 5 with framework support warning; CI uses .NET 8. No Word acceptance.',
   sourceNote:'Synthetic measurements from the generator code in the #15 evaluation PR, after #13/#14; no production export changes.',

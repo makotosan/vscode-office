@@ -9,6 +9,14 @@ const {fixtures,png}=require('../fixtures.cjs');
 const {inspect,xml}=require('../inspect.cjs');
 const {generate,linkImages}=require('../docxjs.cjs');
 const {runCase}=require('../run.cjs');
+const {acceptanceStatus}=require('../acceptance.cjs');
+test('SDK not-run or failed never becomes Word-only pending',()=>{
+ const record={status:'structural-pass-word-pending',final:{errors:[]}};
+ assert.equal(acceptanceStatus(record),'schema-pending');
+ record.sdk={final:{2013:{status:'pass'},2019:{status:'fail'}}};assert.equal(acceptanceStatus(record),'schema-fail');
+ record.sdk.final[2019].status='pass';assert.equal(acceptanceStatus(record),'word-pending');
+ record.status='fail';assert.equal(acceptanceStatus(record),'fidelity-or-integrity-fail');
+});
 test('duplicate raster occurrences link independently; stripped metadata fails closed',async()=>{
  const input=await prepare(documentHtml(`<p><img src="${png}" width="48" height="24"><img src="${png}" width="48" height="24"></p>`),{imageMode:'linked'});
  const result=await generate(input),final=await result.postprocess(result.bytes);assert.equal((await inspect(final)).externalImages,2);
