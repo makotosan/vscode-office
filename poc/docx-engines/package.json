@@ -1,0 +1,14 @@
+{
+  "name": "vscode-office-docx-engine-poc",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": { "test": "node --test test/*.test.cjs", "compare": "node run.cjs --all" },
+  "dependencies": {
+    "@xmldom/xmldom": "0.9.12",
+    "esbuild": "0.28.1",
+    "jszip": "3.10.1",
+    "node-html-parser": "7.0.1",
+    "puppeteer-core": "25.1.0",
+    "vscode-html-to-docx": "1.1.3"
+  }
+}
