@@ -14,9 +14,10 @@ test('docx.js builds real heading/list/page-break and 5x3 table output',async()=
  }
 });
 test('linked PNG/JPEG occurrences have explicit IDs and separate external relationships',async()=>{
- const input=await prepare(documentHtml(fixtures['png-jpeg']),{imageMode:'linked'}),result=await generate(input),r=await inspect(result.bytes);
+ const input=await prepare(documentHtml(fixtures['png-jpeg']),{imageMode:'linked'}),result=await generate(input),final=await result.postprocess(result.bytes),r=await inspect(final);
  assert.deepEqual(r.errors,[]);assert.equal(r.externalImages,2);
- const z=await JSZip.loadAsync(result.bytes),s=await z.file('word/document.xml').async('string');assert.equal((s.match(/r:link=/g)||[]).length,2);
+ assert.equal((await inspect(result.bytes)).externalImages,0);
+ const z=await JSZip.loadAsync(final),s=await z.file('word/document.xml').async('string');assert.equal((s.match(/r:link=/g)||[]).length,2);
 });
 test('SVG is explicitly unsupported without authorized raster fallback; CSS gaps fail diagnostics',async()=>{
  await assert.rejects(generate(await prepare(documentHtml(fixtures.svg))),/UNSUPPORTED/);

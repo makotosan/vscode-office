@@ -45,3 +45,18 @@ evidence; cleanup and Word link-update compatibility remain unaccepted.
 docx.js 9.14.0 requires a raster fallback in its native SVG API. This PoC marks SVG
 unsupported rather than silently creating a PNG preview or replacing the SVG.
 This is a limitation of the current adapter, not proof docx.js cannot export SVG.
+
+## HTML candidates (#14)
+
+`--engine=html-to-docx` selects privateOmega 1.8.0; `--engine=oxford` selects
+OxfordAbstracts 2.3.0. Both receive the identical prepared HTML/CSS and A4 options.
+Their raw XML is inspected without legacy repairs, so inherited table/SVG defects
+remain visible. Linked PNG/JPEG is a separate, recorded postprocessing stage
+using explicit pic:cNvPr or wp:docPr descriptions. Missing/conflicting occurrence
+IDs fail. Linked SVG remains unsupported pending #4.
+
+Official npm metadata (2026-10-25): all three converter packages are MIT.
+privateOmega 1.8.0 was published 2023-03-26; Oxford 2.3.0 on 2025-10-27;
+legacy 1.1.3 on 2026-07-02; docx 9.14.0 on 2026-10-23. These are release dates,
+not a claim about current maintenance quality. See npm package repository fields
+and installed LICENSE files; the evaluation records exact tarball integrities.

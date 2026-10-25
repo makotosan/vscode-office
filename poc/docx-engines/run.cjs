@@ -5,7 +5,7 @@ const {performance}=require('node:perf_hooks');
 const {fixtures}=require('./fixtures.cjs');
 const {prepare,documentHtml,hash}=require('./input.cjs');
 const {inspect}=require('./inspect.cjs');
-const engines={legacy:'./legacy.cjs',docxjs:'./docxjs.cjs'};
+const engines={legacy:'./legacy.cjs',docxjs:'./docxjs.cjs','html-to-docx':'./html-to-docx.cjs',oxford:'./oxford.cjs'};
 function argumentsFor(argv) {
   const options={engine:'legacy',fixture:'table-five-rows','image-mode':'embedded',output:path.join(__dirname,'output')};
   for(const arg of argv) {
@@ -47,6 +47,11 @@ async function runCase(name,options) {
       fs.writeFileSync(path.join(directory,'final.docx'),final);
       record.final={sha256:hash(final),bytes:final.length,...await inspect(final)};
       record.postprocess=['legacy-normalizer'];
+    } else if(result.postprocess) {
+      const final=await result.postprocess(bytes);
+      fs.writeFileSync(path.join(directory,'final.docx'),final);
+      record.final={sha256:hash(final),bytes:final.length,...await inspect(final)};
+      record.postprocess=[result.postprocessName];
     } else { record.final=record.raw;record.postprocess=[]; }
     record.status=record.final.errors.length||result.diagnostics.some(d=>d.severity==='error')?'fail':'structural-pass-word-pending';
   } catch(e) { record.status=e.message.startsWith('UNSUPPORTED:')?'unsupported':'fail';record.error=e.message; }

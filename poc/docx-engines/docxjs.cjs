@@ -59,11 +59,14 @@ async function linkImages(bytes,input) {
  const WP='http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing',A='http://schemas.openxmlformats.org/drawingml/2006/main';
  const seen=new Set();
  for(const drawing of nodes(doc,W,'drawing')) {
-  const props=nodes(drawing,WP,'docPr')[0],id=props?.getAttribute('descr')?.replace(/^poc-asset:/,'');
+  const properties=[...nodes(drawing,WP,'docPr'),...nodes(drawing,'http://schemas.openxmlformats.org/drawingml/2006/picture','cNvPr')];
+  const ids=[...new Set(properties.map(p=>p.getAttribute('descr')).filter(s=>s?.startsWith('poc-asset:')).map(s=>s.slice(10)))];
+  const id=ids.length===1?ids[0]:undefined;
   const asset=input.assets.find(a=>a.id===id),blip=nodes(drawing,A,'blip')[0];
   if(!asset||!blip||seen.has(id))throw new Error('Ambiguous image occurrence; refusing linked conversion');
   seen.add(id);
   const relationship=rel.createElementNS(REL,'Relationship'),rid=`pocLink${seen.size}`;
+  if(nodes(rel,REL,'Relationship').some(r=>r.getAttribute('Id')===rid))throw new Error('Image relationship ID collision');
   relationship.setAttribute('Id',rid);relationship.setAttribute('Type',R+'/image');relationship.setAttribute('TargetMode','External');
   relationship.setAttribute('Target',`assets/${asset.id}.${asset.mime==='image/jpeg'?'jpg':'png'}`);rel.documentElement.appendChild(relationship);
   blip.removeAttributeNS(R,'embed');blip.setAttributeNS(R,'r:link',rid);
@@ -92,8 +95,7 @@ async function generate(input) {
   styles:{default:{document:{run:{font:'Arial',size:22}}}},
   numbering:{config:[{reference:'poc-numbered',levels:[{level:0,format:d.LevelFormat.DECIMAL,text:'%1.',alignment:d.AlignmentType.LEFT}]}]},
   sections:[{properties:{page:{size:{width:input.page.widthTwips,height:input.page.heightTwips}}},children:blocks(model.blocks)}]});
- let bytes=await d.Packer.toBuffer(doc);
- if(input.imageMode==='linked')bytes=await linkImages(bytes,input);
- return {bytes,diagnostics:model.diagnostics,model};
+ const bytes=await d.Packer.toBuffer(doc);
+ return {bytes,diagnostics:model.diagnostics,model,...(input.imageMode==='linked'?{postprocess:raw=>linkImages(raw,input),postprocessName:'explicit-id-image-links'}:{})};
 }
 module.exports={generate,modelFromHtml,linkImages};
