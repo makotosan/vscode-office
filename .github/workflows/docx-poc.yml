@@ -1,0 +1,45 @@
+name: DOCX engine PoC
+on:
+  pull_request:
+    paths:
+      - 'poc/docx-engines/**'
+      - 'src/service/markdown/html-export.js'
+      - 'src/service/markdown/docx-package.js'
+      - '.github/workflows/docx-poc.yml'
+  workflow_dispatch:
+jobs:
+  compare:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    env:
+      SOURCE_REVISION: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: poc/docx-engines/package-lock.json
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+        working-directory: poc/docx-engines
+      - run: npm test
+        working-directory: poc/docx-engines
+      - run: dotnet build validator/Validator.csproj -c Release
+        working-directory: poc/docx-engines
+      - run: node ci.cjs
+        working-directory: poc/docx-engines
+      - run: node measure.cjs
+        working-directory: poc/docx-engines
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: docx-engine-poc-${{ matrix.os }}
+          path: poc/docx-engines/output/
+          retention-days: 7

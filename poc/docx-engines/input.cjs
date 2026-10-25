@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { fileURLToPath } = require('node:url');
+const { fileURLToPath, pathToFileURL } = require('node:url');
 const { parse } = require('node-html-parser');
 const { createRequire } = require('node:module');
 const vm = require('node:vm');
@@ -14,6 +14,15 @@ async function prepare(html, { baseDir = __dirname, imageMode = 'embedded', work
   const sourceHash = hash(html);
   if (preprocess) {
     if (!workDir) throw new Error('Dynamic rendering needs a work directory');
+    if(html.includes('class="mermaid"')) {
+      const script=pathToFileURL(path.join(path.dirname(require.resolve('mermaid')),'mermaid.min.js')).href;
+      html=html.replace('</body>',`<script src="${script}"></script><script>mermaid.initialize({startOnLoad:true,securityLevel:'strict'});</script></body>`);
+    }
+    if(html.includes('class="katex')) {
+      const katexDir=path.dirname(require.resolve('katex'));
+      const sheet=pathToFileURL(path.join(katexDir,'katex.min.css')).href;
+      html=html.replace('</head>',`<link rel="stylesheet" href="${sheet}"></head>`);
+    }
     const entry = path.resolve(__dirname, '../../src/service/markdown/html-export.js');
     const source = fs.readFileSync(entry, 'utf8') + '\nexport { replaceDynamicContentWithImages };';
     const code = require('esbuild').transformSync(source, {format: 'cjs'}).code;
@@ -21,7 +30,7 @@ async function prepare(html, { baseDir = __dirname, imageMode = 'embedded', work
     const module = {exports: {}};
     vm.runInNewContext(code, {module, exports: module.exports, Buffer, process, console,
       require: name => name === './outline' ? {} : name === './docx-package' ? {} : localRequire(name)});
-    html = await module.exports.replaceDynamicContentWithImages(html, {executablePath: chromium}, path.join(workDir, 'dynamic.docx'));
+    html = await module.exports.replaceDynamicContentWithImages(html, {executablePath: chromium,puppeteerArgs:process.env.CI&&process.platform==='linux'?['--no-sandbox']:[]}, path.join(workDir, 'dynamic.docx'));
   }
   const root = parse(html);
   if (root.querySelector('.mermaid, .katex, .katex-display')) throw new Error('Dynamic content was not rendered; provide --chromium and --preprocess');

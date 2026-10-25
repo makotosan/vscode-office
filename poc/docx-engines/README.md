@@ -18,8 +18,8 @@ and Word Windows/Mac acceptance are recorded separately as not-run.
 fixtures. `--preprocess --chromium=/path/to/chrome` uses the existing production
 dynamic-image function once per input. Mermaid requires the real renderer script
 (added in the evaluation stage); without it a residual dynamic element fails.
-The KaTeX markup fixture is a synthetic image-capture control, not a math-engine
-fidelity test. HTTP images require a controlled resolver and currently fail.
+The evaluation stage uses the real pinned KaTeX renderer and Mermaid script.
+HTTP images require a controlled resolver and currently fail.
 
 No private document input is accepted by this public fixture runner. Do not put
 private originals or outputs in tracked files or CI artifacts. Unknown engines,
@@ -60,3 +60,31 @@ privateOmega 1.8.0 was published 2023-03-26; Oxford 2.3.0 on 2025-10-27;
 legacy 1.1.3 on 2026-07-02; docx 9.14.0 on 2026-10-23. These are release dates,
 not a claim about current maintenance quality. See npm package repository fields
 and installed LICENSE files; the evaluation records exact tarball integrities.
+
+## Automated comparison (#15)
+
+```sh
+dotnet build validator/Validator.csproj -c Release
+node evaluate.cjs --chromium=/path/to/chrome --validator=validator/bin/Release/net8.0/Validator.dll
+node measure.cjs
+node export-results.cjs
+```
+
+The evaluator prepares each fixture once, including real Mermaid/KaTeX PNG
+capture, then shares identical bytes/hashes across all engines and image modes.
+Each raw/final package is validated against Office2013 and Office2019 using SDK
+3.3.0. `overallStatus` includes SDK failure; `status` is only the lightweight
+integrity/fidelity result, never full Word acceptance. Known candidate defects
+are measurements and do not make the comparison command fail. `ci.cjs` fails
+for unexpected input preparation or validator execution errors; green CI means
+the comparison ran, not that any engine passed product acceptance.
+
+Measurements under `measurements/` are synthetic only. Local .NET5 target
+override was used because this host has no .NET8; its framework support warning
+is retained as a limitation. CI uses .NET8 on Windows/Linux/macOS. Its macOS job
+does not run Word. `WORD-ACCEPTANCE.md` is the separate manual worksheet.
+
+Generation timings are one sample per heterogeneous fixture, not a controlled
+performance benchmark or the ADR's cold/warm acceptance test. Bundle sizes are
+standalone minified library estimates; they omit adapters, Chromium and dynamic
+renderers and are not VSIX size deltas. `poc/**` is excluded from VSIX packaging.

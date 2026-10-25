@@ -25,7 +25,7 @@ async function runCase(name,options) {
   const start=performance.now();
   try {
     const original=documentHtml(fixtures[name]);
-    const input=await prepare(original,{imageMode:options['image-mode'],workDir:directory,chromium:options.chromium,preprocess:options.preprocess});
+    const input=options.preparedInput?{...options.preparedInput,imageMode:options['image-mode']}:await prepare(original,{imageMode:options['image-mode'],workDir:directory,chromium:options.chromium,preprocess:options.preprocess});
     fs.writeFileSync(path.join(directory,'source.html'),original);
     fs.writeFileSync(path.join(directory,'prepared.html'),input.html);
     fs.writeFileSync(path.join(directory,'assets.json'),JSON.stringify(input.assets.map(({bytes,...a})=>a),null,2));
@@ -53,7 +53,17 @@ async function runCase(name,options) {
       record.final={sha256:hash(final),bytes:final.length,...await inspect(final)};
       record.postprocess=[result.postprocessName];
     } else { record.final=record.raw;record.postprocess=[]; }
-    record.status=record.final.errors.length||result.diagnostics.some(d=>d.severity==='error')?'fail':'structural-pass-word-pending';
+    const {parse}=require('node-html-parser');
+    const root=parse(input.html);root.querySelectorAll('head,script,style').forEach(e=>e.remove());
+    const compact=s=>s.replace(/\s/g,'');
+    record.fidelityErrors=[];
+    if(compact((root.querySelector('body')||root).text)!==compact(record.final.text||''))record.fidelityErrors.push('Text differs');
+    if(record.final.images!==input.assets.length)record.fidelityErrors.push('Image occurrence count differs');
+    for(let i=0;i<input.assets.length;i++) {
+      const actual=record.final.imageExtents?.[i],expected=input.assets[i];
+      if(!actual||Math.abs(actual.widthPx-expected.widthPx)>1||Math.abs(actual.heightPx-expected.heightPx)>1)record.fidelityErrors.push(`Image extent differs: ${expected.id}`);
+    }
+    record.status=record.final.errors.length||record.fidelityErrors.length||result.diagnostics.some(d=>d.severity==='error')?'fail':'structural-pass-word-pending';
   } catch(e) { record.status=e.message.startsWith('UNSUPPORTED:')?'unsupported':'fail';record.error=e.message; }
   record.totalMs=performance.now()-start;
   fs.writeFileSync(path.join(directory,'result.json'),JSON.stringify(record,null,2));

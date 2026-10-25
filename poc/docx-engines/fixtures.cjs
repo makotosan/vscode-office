@@ -18,7 +18,7 @@ const fixtures = {
   'svg': `<p>${img(svg, 'svg')}</p>`,
   'duplicate-images': `<p>${img(png, 'first')}${img(png, 'second')}${img(svg, 'third')}</p>`,
   'mermaid': '<div class="mermaid">graph LR; A[Input] --&gt; B[Output]</div>',
-  'katex': '<span class="katex"><span style="font-size:20px">x² + y² = z²</span></span>',
+  'katex': require('katex').renderToString('x^2 + y^2 = z^2', {throwOnError:true}),
   'broken-image': '<p><img src="./not-found.png" width="48" height="24"></p>',
 };
 module.exports = { fixtures, png, jpeg, svg };
