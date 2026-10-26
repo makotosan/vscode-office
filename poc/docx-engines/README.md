@@ -1,5 +1,9 @@
 # Isolated DOCX engine PoC (#11/#12)
 
+Pandoc追加試験はユーザーの後続依頼に基づくopt-inです。
+`PANDOC_BIN`を設定して`--engine=pandoc`または`--engineNames=pandoc`を指定します。
+通常の4候補・既定経路は維持。[結果](../../docs/pandoc-poc-results.md)。
+
 This directory does not participate in extension builds or change export defaults.
 Install its pinned dependencies with `npm ci` here (Node 24 or newer), then:
 

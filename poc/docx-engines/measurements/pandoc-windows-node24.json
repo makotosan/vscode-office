@@ -1,0 +1,2157 @@
+{
+  "date": "2026-10-26 JST",
+  "release": {
+    "version": "3.12.1",
+    "source": "https://github.com/jgm/pandoc/releases/download/3.12.1/pandoc-3.12.1-windows-x86_64.zip",
+    "sha256": "6ef431cb20b2c24a0371fc19200dc49d452be54b1b5c9239f3462841ef53e587",
+    "publishedDigest": "sha256:6ef431cb20b2c24a0371fc19200dc49d452be54b1b5c9239f3462841ef53e587"
+  },
+  "runtime": {
+    "OS": "win32",
+    "CPU": "x64",
+    "node": "v24.22.1",
+    "sdk": "3.3.0",
+    "framework": "local .NET5 override; framework warning; CI .NET8"
+  },
+  "sameInputHashes": true,
+  "word": {
+    "windows": "not-run",
+    "macOS": "not-run"
+  },
+  "records": [
+    {
+      "engine": "pandoc",
+      "fixture": "no-table",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "3246eab209dfba1e1dcb4e5bc59e19f46c53a744ac7b9038829e6029c206a370",
+      "sourceHash": "3246eab209dfba1e1dcb4e5bc59e19f46c53a744ac7b9038829e6029c206a370",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "9cfc80604d9949685f302159c93e0bc26da05ed6950e693dbe31ba2dc8dc4b54",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 342.05530000000005,
+      "raw": {
+        "sha256": "8795524902279f6fac2ddc829ba14ec8056b7b26e346669559dfc4a6fec2d563",
+        "bytes": 22990,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 5,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "8795524902279f6fac2ddc829ba14ec8056b7b26e346669559dfc4a6fec2d563",
+        "bytes": 22990,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 5,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [
+        "Explicit page break missing"
+      ],
+      "status": "fail",
+      "totalMs": 388.54729999999995,
+      "attempt": 1,
+      "preparationMs": 10.820899999999995,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "fidelity-or-integrity-fail"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "no-table",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "3246eab209dfba1e1dcb4e5bc59e19f46c53a744ac7b9038829e6029c206a370",
+      "sourceHash": "3246eab209dfba1e1dcb4e5bc59e19f46c53a744ac7b9038829e6029c206a370",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "6d88d4db720266dbc07dfdd3ec410a0c05cdb7a4e103ba1076e9c350b0570afd",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 293.0475999999999,
+      "raw": {
+        "sha256": "36db1f17d34ece9211ab7679b0c3f1708dcb3f591fb5a34a40895ec69c635f2a",
+        "bytes": 22990,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 5,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "c513c70a15306a5444dd1580e4cd2cbf95c73dfc9a1aec6167d0701341040b5b",
+        "bytes": 57877,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 5,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [
+        "explicit-id-image-links"
+      ],
+      "fidelityErrors": [
+        "Explicit page break missing"
+      ],
+      "status": "fail",
+      "totalMs": 401.78690000000006,
+      "attempt": 1,
+      "preparationMs": 10.820899999999995,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "fidelity-or-integrity-fail"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "table-five-rows",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "59b755da36659ed2b50094f0687964041dfead35dda1ebc8860c1aa0b22470ae",
+      "sourceHash": "59b755da36659ed2b50094f0687964041dfead35dda1ebc8860c1aa0b22470ae",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "8a3b50e3e4cf131aecfa5d73d7e4556321a0153d4017658f3b46b56945cf2ced",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 289.3892999999989,
+      "raw": {
+        "sha256": "31d44a58d920b604de050a0c974bcc5326312612a6c8fa76bedc17512d9c7543",
+        "bytes": 22776,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 5,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 15,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "31d44a58d920b604de050a0c974bcc5326312612a6c8fa76bedc17512d9c7543",
+        "bytes": 22776,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 5,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 15,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 310.8792000000012,
+      "attempt": 1,
+      "preparationMs": 2.5439000000005763,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "table-five-rows",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "59b755da36659ed2b50094f0687964041dfead35dda1ebc8860c1aa0b22470ae",
+      "sourceHash": "59b755da36659ed2b50094f0687964041dfead35dda1ebc8860c1aa0b22470ae",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "187310f026e249df5f6dcdb1794ae10e3b007734ad23c9462ff996d44e6d4f39",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 301.46199999999953,
+      "raw": {
+        "sha256": "fc8121fdc2a148a5c7ca6460999f220a5be7229b3fb5dcff230272f44a7cf8fe",
+        "bytes": 22776,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 5,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 15,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "b323f6558d357dce7511985b3dc1817595bfbabd9de73a1c761ec001be7850fe",
+        "bytes": 56435,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 5,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 15,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [
+        "explicit-id-image-links"
+      ],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 392.97249999999985,
+      "attempt": 1,
+      "preparationMs": 2.5439000000005763,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "multiple-tables",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "413e156d78165669b0fd9e21183589ba93c5cd8b2240b568307bcf4cf1958dfa",
+      "sourceHash": "413e156d78165669b0fd9e21183589ba93c5cd8b2240b568307bcf4cf1958dfa",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "4ef5188c7852c1a26cbf360c6ccd2043fcdf662ffe37409f43a4cdfc03232de2",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 306.03659999999945,
+      "raw": {
+        "sha256": "d74ff4fc2b38d5b249660a349e65e21e5359a29e6e8aca5bb446eb537190d522",
+        "bytes": 22827,
+        "errors": [],
+        "tableCount": 2,
+        "tables": [
+          {
+            "rows": 5,
+            "gridColumns": 3
+          },
+          {
+            "rows": 5,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 31,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "d74ff4fc2b38d5b249660a349e65e21e5359a29e6e8aca5bb446eb537190d522",
+        "bytes": 22827,
+        "errors": [],
+        "tableCount": 2,
+        "tables": [
+          {
+            "rows": 5,
+            "gridColumns": 3
+          },
+          {
+            "rows": 5,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 31,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 335.9492999999966,
+      "attempt": 1,
+      "preparationMs": 1.60030000000188,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "multiple-tables",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "413e156d78165669b0fd9e21183589ba93c5cd8b2240b568307bcf4cf1958dfa",
+      "sourceHash": "413e156d78165669b0fd9e21183589ba93c5cd8b2240b568307bcf4cf1958dfa",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "3a1987bd5ec83202cdf6eab5b6cedd48e51a10ecc87c3c79ee1d4248e59643d6",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 299.10080000000016,
+      "raw": {
+        "sha256": "80822afd314f312b3d1e5da3de39cb3fbef9b52cd23b095dda360ad20b256d7b",
+        "bytes": 22827,
+        "errors": [],
+        "tableCount": 2,
+        "tables": [
+          {
+            "rows": 5,
+            "gridColumns": 3
+          },
+          {
+            "rows": 5,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 31,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "fd659aa3117120e4642ccb4059b6366fa3c050e765e24fdc1f1b66dda0c3381b",
+        "bytes": 58780,
+        "errors": [],
+        "tableCount": 2,
+        "tables": [
+          {
+            "rows": 5,
+            "gridColumns": 3
+          },
+          {
+            "rows": 5,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 31,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [
+        "explicit-id-image-links"
+      ],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 350.16119999999864,
+      "attempt": 1,
+      "preparationMs": 1.60030000000188,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "table-style",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "82b56531a73ff7d6f75af040a3b5732cb7b8dc7dd9d2305acafb544e02641fda",
+      "sourceHash": "82b56531a73ff7d6f75af040a3b5732cb7b8dc7dd9d2305acafb544e02641fda",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "44e6055f950b7cd3f4a25aa682ebf2ac7a7c05d59936b88f795fe5adb049d659",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 312.51220000000103,
+      "raw": {
+        "sha256": "a75b0de0a20cffc0e7c5c87ffc532d57958fadc4d27502ab4c90282a50f20387",
+        "bytes": 22673,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 1,
+            "gridColumns": 2
+          }
+        ],
+        "paragraphs": 2,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "a75b0de0a20cffc0e7c5c87ffc532d57958fadc4d27502ab4c90282a50f20387",
+        "bytes": 22673,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 1,
+            "gridColumns": 2
+          }
+        ],
+        "paragraphs": 2,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 346.4770000000026,
+      "attempt": 1,
+      "preparationMs": 1.5287000000025728,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "table-style",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "82b56531a73ff7d6f75af040a3b5732cb7b8dc7dd9d2305acafb544e02641fda",
+      "sourceHash": "82b56531a73ff7d6f75af040a3b5732cb7b8dc7dd9d2305acafb544e02641fda",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "9feb5af7e6257d8cddd097f62197d650ce7c6980f155c8f95bb83d91c7310e43",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 301.91560000000027,
+      "raw": {
+        "sha256": "01a268b3ab53cc341dec97057dc4c469a0d8fc77572977eec5a27cc26af87684",
+        "bytes": 22673,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 1,
+            "gridColumns": 2
+          }
+        ],
+        "paragraphs": 2,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "25de9684b65da175035ecd316589572961d22688061489ebc3c65487d038fc56",
+        "bytes": 54739,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 1,
+            "gridColumns": 2
+          }
+        ],
+        "paragraphs": 2,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [
+        "explicit-id-image-links"
+      ],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 370.0047000000013,
+      "attempt": 1,
+      "preparationMs": 1.5287000000025728,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "merged-cells",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "303f57ffcc80c5f77e91ef36bb02c3e434a1498f1d53f798692c6c951e247142",
+      "sourceHash": "303f57ffcc80c5f77e91ef36bb02c3e434a1498f1d53f798692c6c951e247142",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "70f0bfa60f0c46dadf174b4d2f373db8d9ac419ec8dcc94f804f6d5d8d19b6bd",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 300.31759999999485,
+      "raw": {
+        "sha256": "2eba42ce7013ea6e165832c7380e949d70b409db8144a5dda2752f7253e15246",
+        "bytes": 22736,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 3,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 7,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "2eba42ce7013ea6e165832c7380e949d70b409db8144a5dda2752f7253e15246",
+        "bytes": 22736,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 3,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 7,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 324.2416999999987,
+      "attempt": 1,
+      "preparationMs": 1.1533999999955995,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "merged-cells",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "303f57ffcc80c5f77e91ef36bb02c3e434a1498f1d53f798692c6c951e247142",
+      "sourceHash": "303f57ffcc80c5f77e91ef36bb02c3e434a1498f1d53f798692c6c951e247142",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "d38dda694d10b0663216961a37fb6c24dcdb1b69b048017e0c38589bb5540eff",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 301.6927999999971,
+      "raw": {
+        "sha256": "7c0871b2ec2f739095dcc8f417e491154b79137fd8fadc205d4a8faafefeefe2",
+        "bytes": 22736,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 3,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 7,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "2f902a7cb10dd926b067c383112d2d8942878f4d1c8f5f59d5a3f923a73143c6",
+        "bytes": 55430,
+        "errors": [],
+        "tableCount": 1,
+        "tables": [
+          {
+            "rows": 3,
+            "gridColumns": 3
+          }
+        ],
+        "paragraphs": 7,
+        "images": 0,
+        "imageExtents": [],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [],
+        "pageBreaks": 0
+      },
+      "postprocess": [
+        "explicit-id-image-links"
+      ],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 358.97409999999945,
+      "attempt": 1,
+      "preparationMs": 1.1533999999955995,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "png-jpeg",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "747c81292032d743d959f05be77313fa9db04c4e0e50d4094b3c514a6a566c19",
+      "sourceHash": "88e1e2e8cf56104cad8fb367b0c045ad30d8a28c30733c1108c5dc948a516546",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "b24005d2575ef53274d628da929f1c3e1c6b38882f6f29736826008dfb01460c",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 288.31640000000334,
+      "raw": {
+        "sha256": "16921a7b5cc24a2f3256a2ab805ebcd2fb33de4708e4b39f40beee5d3588ca65",
+        "bytes": 24388,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 2,
+        "imageExtents": [
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          },
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId12.jpg",
+            "sha256": "0abe34f755c8bebef2832b6c278efd58c4e63751e0dd01b17c1755aba5cf3d64"
+          },
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "af9cb484e25836824f7bf5adede1e0ce33aea0abaae1e8978b5ec30e99ca27f1"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "16921a7b5cc24a2f3256a2ab805ebcd2fb33de4708e4b39f40beee5d3588ca65",
+        "bytes": 24388,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 2,
+        "imageExtents": [
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          },
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId12.jpg",
+            "sha256": "0abe34f755c8bebef2832b6c278efd58c4e63751e0dd01b17c1755aba5cf3d64"
+          },
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "af9cb484e25836824f7bf5adede1e0ce33aea0abaae1e8978b5ec30e99ca27f1"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 306.17849999999453,
+      "attempt": 1,
+      "preparationMs": 2.139999999999418,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "png-jpeg",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "747c81292032d743d959f05be77313fa9db04c4e0e50d4094b3c514a6a566c19",
+      "sourceHash": "88e1e2e8cf56104cad8fb367b0c045ad30d8a28c30733c1108c5dc948a516546",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "8fec3f7e48f465c8a3a8349d8eff4ff9094ab3a8aa178eaa62b9b72015a75b50",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 301.00480000000243,
+      "raw": {
+        "sha256": "759d011b927d3cc99627bc723e8d0de284e1ef70246b867799f125308aa54c99",
+        "bytes": 24387,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 2,
+        "imageExtents": [
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          },
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId12.jpg",
+            "sha256": "0abe34f755c8bebef2832b6c278efd58c4e63751e0dd01b17c1755aba5cf3d64"
+          },
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "af9cb484e25836824f7bf5adede1e0ce33aea0abaae1e8978b5ec30e99ca27f1"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "44b9f121ec1fc207b62befddfb7e63431be38e83b8fa8a41ff3de032220a9358",
+        "bytes": 58532,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 2,
+        "imageExtents": [
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          },
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 2,
+        "media": [
+          {
+            "part": "word/media/rId12.jpg",
+            "sha256": "0abe34f755c8bebef2832b6c278efd58c4e63751e0dd01b17c1755aba5cf3d64"
+          },
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "af9cb484e25836824f7bf5adede1e0ce33aea0abaae1e8978b5ec30e99ca27f1"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "postprocess": [
+        "explicit-id-image-links"
+      ],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 348.350099999996,
+      "attempt": 1,
+      "preparationMs": 2.139999999999418,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "svg",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "ab210616e7ecf2519a5a25d3c142376c70c23ea12fb74d41e0b61ea27ac4348d",
+      "sourceHash": "6880b6021f89b3d7d0de8f084dd1095423d3f5c72c562e469fdda87dd0dc4ab9",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "233ced313374fac32098ef4d3f859fe72aa3d5aaae9300374706cf7f854b60ec",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 295.1510999999955,
+      "raw": {
+        "sha256": "335eb49477f761c9b6ea14df939b2c98d38d4fa97f83694bc3e68d6761727f19",
+        "bytes": 23412,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.svg",
+            "sha256": "6c4783ab1a43c2341091a999e6f1b4b81f1eddd4e96dce3fd8715f3831655227"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "diagnostics": [
+        {
+          "code": "pandoc-stderr",
+          "severity": "warning",
+          "message": "[WARNING] Could not convert image a097802821868f74163f5a48795d42043bc4ed6c.svg: \"check that rsvg-convert is in path.\\nrsvg-convert: createProcess: does not exist (No such file or directory)\""
+        }
+      ],
+      "final": {
+        "sha256": "335eb49477f761c9b6ea14df939b2c98d38d4fa97f83694bc3e68d6761727f19",
+        "bytes": 23412,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.svg",
+            "sha256": "6c4783ab1a43c2341091a999e6f1b4b81f1eddd4e96dce3fd8715f3831655227"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 309.3966999999975,
+      "attempt": 1,
+      "preparationMs": 1.2145999999993364,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "svg",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "not-run",
+      "inputHash": "ab210616e7ecf2519a5a25d3c142376c70c23ea12fb74d41e0b61ea27ac4348d",
+      "sourceHash": "6880b6021f89b3d7d0de8f084dd1095423d3f5c72c562e469fdda87dd0dc4ab9",
+      "status": "unsupported",
+      "error": "UNSUPPORTED: Pandoc linked SVG awaits #4 acceptance",
+      "totalMs": 1.0477000000028056,
+      "attempt": 1,
+      "preparationMs": 1.2145999999993364,
+      "sdk": {},
+      "overallStatus": "unsupported"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "duplicate-images",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "a1e65b4c6a8dab6c0d3a9ca7cb06e5a72a1268b21e5ff9f0f1978b0a0d98df72",
+      "sourceHash": "cbf69b1e71824e34661954aa530693b7708c6a6dbc55dcdce1f71aae4432a823",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "797450b4d081411c367b375fb1a2a4f7af126239863cc8bc5353da1daf66e36e",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 308.9976999999999,
+      "raw": {
+        "sha256": "f36f45dbdb16e15aa2c9ddcb320f7d10508a5f5ee698b3bb691c0f459a825dc3",
+        "bytes": 23757,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 3,
+        "imageExtents": [
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          },
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          },
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "af9cb484e25836824f7bf5adede1e0ce33aea0abaae1e8978b5ec30e99ca27f1"
+          },
+          {
+            "part": "word/media/rId14.svg",
+            "sha256": "6c4783ab1a43c2341091a999e6f1b4b81f1eddd4e96dce3fd8715f3831655227"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "diagnostics": [
+        {
+          "code": "pandoc-stderr",
+          "severity": "warning",
+          "message": "[WARNING] Could not convert image a097802821868f74163f5a48795d42043bc4ed6c.svg: \"check that rsvg-convert is in path.\\nrsvg-convert: createProcess: does not exist (No such file or directory)\""
+        }
+      ],
+      "final": {
+        "sha256": "f36f45dbdb16e15aa2c9ddcb320f7d10508a5f5ee698b3bb691c0f459a825dc3",
+        "bytes": 23757,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 3,
+        "imageExtents": [
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          },
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          },
+          {
+            "widthPx": 48,
+            "heightPx": 24
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "af9cb484e25836824f7bf5adede1e0ce33aea0abaae1e8978b5ec30e99ca27f1"
+          },
+          {
+            "part": "word/media/rId14.svg",
+            "sha256": "6c4783ab1a43c2341091a999e6f1b4b81f1eddd4e96dce3fd8715f3831655227"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 331.15669999999955,
+      "attempt": 1,
+      "preparationMs": 1.654500000004191,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "duplicate-images",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "not-run",
+      "inputHash": "a1e65b4c6a8dab6c0d3a9ca7cb06e5a72a1268b21e5ff9f0f1978b0a0d98df72",
+      "sourceHash": "cbf69b1e71824e34661954aa530693b7708c6a6dbc55dcdce1f71aae4432a823",
+      "status": "unsupported",
+      "error": "UNSUPPORTED: Pandoc linked SVG awaits #4 acceptance",
+      "totalMs": 1.141700000000128,
+      "attempt": 1,
+      "preparationMs": 1.654500000004191,
+      "sdk": {},
+      "overallStatus": "unsupported"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "mermaid",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "841e0fdcef8936b037d64125a3f7947dd60003c0dd8f55008ab119394038bcc5",
+      "sourceHash": "43d111be8c2942ae5b39f9b399c59233b41f90e0514a293822b34f829f303400",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "16c5caeada0bf76654213e80577d0fd37f7287e31b644cbd300f2f2f93ddbf32",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 343.037900000003,
+      "raw": {
+        "sha256": "26c73abfa8124d2e8c453d039f201d7cf611fb9ee1c1b27e02b9260e0126431c",
+        "bytes": 29857,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 274,
+            "heightPx": 73
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "46ad7973b1ebd7c2b56fa4ea93106e49a45f60902ee1176065ac6e6695e7a4f1"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "26c73abfa8124d2e8c453d039f201d7cf611fb9ee1c1b27e02b9260e0126431c",
+        "bytes": 29857,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 274,
+            "heightPx": 73
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "46ad7973b1ebd7c2b56fa4ea93106e49a45f60902ee1176065ac6e6695e7a4f1"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 364.62019999999757,
+      "attempt": 1,
+      "preparationMs": 1.9262000000016997,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "mermaid",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "841e0fdcef8936b037d64125a3f7947dd60003c0dd8f55008ab119394038bcc5",
+      "sourceHash": "43d111be8c2942ae5b39f9b399c59233b41f90e0514a293822b34f829f303400",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "0155cc17dca8f5adc435ec96717fedc77d473f71435dec6642a2ab9bce889cb5",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 313.2419000000082,
+      "raw": {
+        "sha256": "a7417eac1642743c77e60c25f7adb4792c99654ffe74d60bcd1b796eac2855ae",
+        "bytes": 29857,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 274,
+            "heightPx": 73
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "46ad7973b1ebd7c2b56fa4ea93106e49a45f60902ee1176065ac6e6695e7a4f1"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "e185534da717c2e2d48d6b2a88c6d34155178671874b4fdbf6cc54b811a6fd75",
+        "bytes": 64565,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 274,
+            "heightPx": 73
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 1,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "46ad7973b1ebd7c2b56fa4ea93106e49a45f60902ee1176065ac6e6695e7a4f1"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "postprocess": [
+        "explicit-id-image-links"
+      ],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 349.116399999999,
+      "attempt": 1,
+      "preparationMs": 1.9262000000016997,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "katex",
+      "imageMode": "embedded",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "c7bd21e27261d68790a61a1b9a416f17e7ce2f082a049308594bde3d481cc124",
+      "sourceHash": "5520b3db1032fbc1e4a8f28fd0bf8acf1dd9ec4e543e67a2a50086a8ea2cedd0",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "036a0a0b780afda2780ed3c87cb00d10962945aad713d22bd7e0384d77fda4ae",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 319.3261000000057,
+      "raw": {
+        "sha256": "f8e60ad3482e6255f9e8cbac7ae15f8be29efcd7d85062833ce1bd3705ce6f01",
+        "bytes": 28288,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 96,
+            "heightPx": 23
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "cc6e0a36a185c10301b9c9f00af70c2a0233b68cb31a6cbc31076f25cbc4d7e9"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "f8e60ad3482e6255f9e8cbac7ae15f8be29efcd7d85062833ce1bd3705ce6f01",
+        "bytes": 28288,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 96,
+            "heightPx": 23
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "cc6e0a36a185c10301b9c9f00af70c2a0233b68cb31a6cbc31076f25cbc4d7e9"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "postprocess": [],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 335.7850000000035,
+      "attempt": 1,
+      "preparationMs": 1.5886999999929685,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    },
+    {
+      "engine": "pandoc",
+      "fixture": "katex",
+      "imageMode": "linked",
+      "OS": "win32",
+      "CPU": "x64",
+      "node": "v24.22.1",
+      "word": {
+        "windows": "not-run",
+        "macOS": "not-run"
+      },
+      "schema": "executed",
+      "inputHash": "c7bd21e27261d68790a61a1b9a416f17e7ce2f082a049308594bde3d481cc124",
+      "sourceHash": "5520b3db1032fbc1e4a8f28fd0bf8acf1dd9ec4e543e67a2a50086a8ea2cedd0",
+      "adapterMetadata": {
+        "version": "pandoc 3.12.1",
+        "arguments": [
+          "--from=html",
+          "--to=docx",
+          "--standalone",
+          "--reference-doc=reference.docx",
+          "--output=output.docx",
+          "input.html"
+        ],
+        "referenceSha256": "cc049287255829c106d25011cbd77f54d262fe0dfccefec26dd8b46e5dfb0661",
+        "referenceChange": "A4 page size only"
+      },
+      "generationMs": 290.36939999999595,
+      "raw": {
+        "sha256": "14745e9a7397300927235bd3ee4c5049b780896a91db742f77f5dff0af33affc",
+        "bytes": 28288,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 96,
+            "heightPx": 23
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 0,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "cc6e0a36a185c10301b9c9f00af70c2a0233b68cb31a6cbc31076f25cbc4d7e9"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "diagnostics": [],
+      "final": {
+        "sha256": "81d00bd743387aad60c985b06a810074b40a06b695d2956e90697afa4c79b935",
+        "bytes": 61532,
+        "errors": [],
+        "tableCount": 0,
+        "tables": [],
+        "paragraphs": 1,
+        "images": 1,
+        "imageExtents": [
+          {
+            "widthPx": 96,
+            "heightPx": 23
+          }
+        ],
+        "altChunk": 0,
+        "compatibilityMode": null,
+        "externalImages": 1,
+        "media": [
+          {
+            "part": "word/media/rId9.png",
+            "sha256": "cc6e0a36a185c10301b9c9f00af70c2a0233b68cb31a6cbc31076f25cbc4d7e9"
+          }
+        ],
+        "pageBreaks": 0
+      },
+      "postprocess": [
+        "explicit-id-image-links"
+      ],
+      "fidelityErrors": [],
+      "status": "structural-pass-word-pending",
+      "totalMs": 327.92399999999907,
+      "attempt": 1,
+      "preparationMs": 1.5886999999929685,
+      "sdk": {
+        "raw": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        },
+        "final": {
+          "2013": {
+            "schemaTarget": "2013",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          },
+          "2019": {
+            "schemaTarget": "2019",
+            "sdk": "3.3.0",
+            "errors": [],
+            "status": "pass"
+          }
+        }
+      },
+      "overallStatus": "word-pending"
+    }
+  ]
+}

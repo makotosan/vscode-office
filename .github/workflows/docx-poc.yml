@@ -35,6 +35,25 @@ jobs:
         working-directory: poc/docx-engines
       - run: node ci.cjs
         working-directory: poc/docx-engines
+      - name: Install pinned portable Pandoc for the opt-in comparison
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        working-directory: poc/docx-engines
+        run: |
+          New-Item -ItemType Directory -Path .tools -Force | Out-Null
+          Invoke-WebRequest 'https://github.com/jgm/pandoc/releases/download/3.12.1/pandoc-3.12.1-windows-x86_64.zip' -OutFile .tools/pandoc.zip
+          $actual = (Get-FileHash .tools/pandoc.zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne '6ef431cb20b2c24a0371fc19200dc49d452be54b1b5c9239f3462841ef53e587') { throw 'Pandoc hash mismatch' }
+          Expand-Archive .tools/pandoc.zip .tools
+          "PANDOC_BIN=$((Resolve-Path .tools/pandoc-3.12.1/pandoc.exe).Path)" >> $env:GITHUB_ENV
+      - name: Test Pandoc and compare the exact saved inputs
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        working-directory: poc/docx-engines
+        run: |
+          node --test test/pandoc.test.cjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node evaluate.cjs --engineNames=pandoc --output=output/pandoc --preparedRoot=output/evaluation/attempt-1/legacy/embedded --validator=validator/bin/Release/net8.0/Validator.dll
       - run: node measure.cjs
         working-directory: poc/docx-engines
       - uses: actions/upload-artifact@v4

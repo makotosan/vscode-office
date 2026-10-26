@@ -4,19 +4,31 @@ const os=require('node:os');
 const {spawnSync}=require('node:child_process');
 const {performance}=require('node:perf_hooks');
 const {fixtures}=require('./fixtures.cjs');
-const {prepare,documentHtml}=require('./input.cjs');
-const {runCase,engines}=require('./run.cjs');
+const {prepare,documentHtml,hash}=require('./input.cjs');
+const {runCase,engines,adapters}=require('./run.cjs');
 const {acceptanceStatus}=require('./acceptance.cjs');
-async function evaluate({output=path.join(__dirname,'output/evaluation'),chromium,validator,dotnet='dotnet',repeat=1}={}) {
+async function evaluate({output=path.join(__dirname,'output/evaluation'),chromium,validator,dotnet='dotnet',repeat=1,engineNames=Object.keys(engines),preparedRoot}={}) {
+ if(typeof engineNames==='string')engineNames=engineNames.split(',');
+ if(!engineNames.length||engineNames.some(e=>!adapters[e]))throw new Error('Unknown engine selection');
  if(!Number.isInteger(repeat)||repeat<1)throw new Error('repeat must be a positive integer');
  fs.mkdirSync(output,{recursive:true});
  const records=[],inputFailures=[];
  for(const name of Object.keys(fixtures)) {
   const workDir=path.join(output,'prepared',name);fs.mkdirSync(workDir,{recursive:true});
   let preparedInput,preparationMs;
-  try {const start=performance.now();preparedInput=await prepare(documentHtml(fixtures[name]),{workDir,chromium,preprocess:Boolean(chromium)});preparationMs=performance.now()-start;}
+  try {
+   const start=performance.now(),saved=preparedRoot&&path.join(preparedRoot,name,'prepared.html');
+   preparedInput=await prepare(saved&&fs.existsSync(saved)?fs.readFileSync(saved,'utf8'):documentHtml(fixtures[name]),{workDir,chromium,preprocess:Boolean(chromium)});
+   if(saved&&fs.existsSync(saved)) {
+    const previous=JSON.parse(fs.readFileSync(path.join(preparedRoot,name,'result.json'),'utf8'));
+    if(previous.inputHash!==preparedInput.inputHash)throw new Error('Reused prepared input hash differs');
+    preparedInput.originalHtml=fs.readFileSync(path.join(preparedRoot,name,'source.html'),'utf8');
+    preparedInput.sourceHash=hash(preparedInput.originalHtml);
+   }
+   preparationMs=performance.now()-start;
+  }
   catch(e){inputFailures.push({fixture:name,error:e.message,expected:name==='broken-image'});continue;}
-  for(const engine of Object.keys(engines))for(const mode of ['embedded','linked'])for(let attempt=0;attempt<repeat;attempt++) {
+  for(const engine of engineNames)for(const mode of ['embedded','linked'])for(let attempt=0;attempt<repeat;attempt++) {
    const caseOutput=path.join(output,`attempt-${attempt+1}`);
    const record=await runCase(name,{engine,'image-mode':mode,output:caseOutput,preparedInput});
    record.attempt=attempt+1;record.preparationMs=preparationMs;
@@ -46,7 +58,7 @@ async function evaluate({output=path.join(__dirname,'output/evaluation'),chromiu
   decision:'No engine selected: Word Windows/macOS and full fidelity/image-mode acceptance required.'};
  fs.writeFileSync(path.join(output,'comparison.json'),JSON.stringify(summary,null,2));
  const rows=[];
- for(const engine of Object.keys(engines))for(const mode of ['embedded','linked']) {
+ for(const engine of engineNames)for(const mode of ['embedded','linked']) {
   const cases=records.filter(r=>r.engine===engine&&r.imageMode===mode),valid=cases.filter(r=>r.final);
   const rawErrors=valid.reduce((n,r)=>n+r.raw.errors.length,0),finalErrors=valid.reduce((n,r)=>n+r.final.errors.length,0);
   const schemaPass=valid.filter(r=>r.sdk.final?.['2019']?.status==='pass').length;
@@ -61,6 +73,8 @@ async function evaluate({output=path.join(__dirname,'output/evaluation'),chromiu
 if(require.main===module) {
  const args=Object.fromEntries(process.argv.slice(2).map(a=>{const m=/^--([\w-]+)=(.*)$/.exec(a);if(!m)throw new Error(`Invalid ${a}`);return [m[1],m[2]];}));
  if(args.repeat)args.repeat=Number(args.repeat);
- evaluate(args).catch(e=>{console.error(e);process.exitCode=1;});
+ evaluate(args).then(s=>{
+  if(!s.records.some(r=>r.final)||s.inputFailures.some(f=>!f.expected)||s.records.some(r=>Object.values(r.sdk||{}).some(stage=>Object.values(stage).some(s=>s.status==='error'))))process.exitCode=1;
+ }).catch(e=>{console.error(e);process.exitCode=1;});
 }
 module.exports={evaluate};

@@ -52,6 +52,7 @@ async function inspect(bytes) {
     const mode=settings&&nodes(settings,W,'compatSetting').find(n=>n.getAttributeNS(W,'name')==='compatibilityMode');
     return {errors, tableCount:tables.length, tables:tables.map(t=>({rows:children(t).filter(n=>n.localName==='tr').length, gridColumns:nodes(t,W,'gridCol').length})),
       paragraphs:doc?nodes(doc,W,'p').length:0, images:doc?nodes(doc,'http://schemas.openxmlformats.org/drawingml/2006/main','blip').length:0,
+      pageBreaks:doc?nodes(doc,W,'br').filter(n=>n.getAttributeNS(W,'type')==='page').length+nodes(doc,W,'pageBreakBefore').length:0,
       text:doc?nodes(doc,W,'t').map(n=>n.textContent).join(''): '',
       imageExtents:doc?nodes(doc,W,'drawing').map(d=>{const extent=nodes(d,'http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing','extent')[0];return {widthPx:Number(extent?.getAttribute('cx'))/9525,heightPx:Number(extent?.getAttribute('cy'))/9525};}):[],
       altChunk:doc?nodes(doc,W,'altChunk').length:0, compatibilityMode:mode?.getAttributeNS(W,'val')||null,

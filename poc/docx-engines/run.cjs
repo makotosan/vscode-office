@@ -6,6 +6,7 @@ const {fixtures}=require('./fixtures.cjs');
 const {prepare,documentHtml,hash}=require('./input.cjs');
 const {inspect}=require('./inspect.cjs');
 const engines={legacy:'./legacy.cjs',docxjs:'./docxjs.cjs','html-to-docx':'./html-to-docx.cjs',oxford:'./oxford.cjs'};
+const adapters={...engines,pandoc:'./pandoc.cjs'};
 function argumentsFor(argv) {
   const options={engine:'legacy',fixture:'table-five-rows','image-mode':'embedded',output:path.join(__dirname,'output')};
   for(const arg of argv) {
@@ -13,7 +14,7 @@ function argumentsFor(argv) {
     if(!m || !['engine','fixture','image-mode','output','chromium','preprocess','all'].includes(m[1])) throw new Error(`Unknown argument ${arg}`);
     options[m[1]]=m[2]===undefined?true:m[2];
   }
-  if(!engines[options.engine]) throw new Error(`Unsupported engine ${options.engine}`);
+  if(!adapters[options.engine]) throw new Error(`Unsupported engine ${options.engine}`);
   if(!['embedded','linked'].includes(options['image-mode'])) throw new Error('Invalid image mode');
   if(!options.all&&!fixtures[options.fixture]) throw new Error(`Unknown fixture ${options.fixture}`);
   return options;
@@ -26,12 +27,13 @@ async function runCase(name,options) {
   try {
     const original=documentHtml(fixtures[name]);
     const input=options.preparedInput?{...options.preparedInput,imageMode:options['image-mode']}:await prepare(original,{imageMode:options['image-mode'],workDir:directory,chromium:options.chromium,preprocess:options.preprocess});
-    fs.writeFileSync(path.join(directory,'source.html'),original);
+    fs.writeFileSync(path.join(directory,'source.html'),input.originalHtml||original);
     fs.writeFileSync(path.join(directory,'prepared.html'),input.html);
     fs.writeFileSync(path.join(directory,'assets.json'),JSON.stringify(input.assets.map(({bytes,...a})=>a),null,2));
     record.inputHash=input.inputHash;record.sourceHash=input.sourceHash;
     const generation=performance.now();
-    const result=await require(engines[options.engine]).generate(input);
+    const result=await require(adapters[options.engine]).generate(input);
+    if(result.metadata)record.adapterMetadata=result.metadata;
     if(result.model)fs.writeFileSync(path.join(directory,'model.json'),JSON.stringify(result.model,null,2));
     if(input.imageMode==='linked') {
       fs.mkdirSync(path.join(directory,'assets'),{recursive:true});
@@ -59,6 +61,8 @@ async function runCase(name,options) {
     record.fidelityErrors=[];
     if(compact((root.querySelector('body')||root).text)!==compact(record.final.text||''))record.fidelityErrors.push('Text differs');
     if(record.final.images!==input.assets.length)record.fidelityErrors.push('Image occurrence count differs');
+    const expectedBreaks=root.querySelectorAll('.page-break').length;
+    if(expectedBreaks>(record.final.pageBreaks||0))record.fidelityErrors.push('Explicit page break missing');
     for(let i=0;i<input.assets.length;i++) {
       const actual=record.final.imageExtents?.[i],expected=input.assets[i];
       if(!actual||Math.abs(actual.widthPx-expected.widthPx)>1||Math.abs(actual.heightPx-expected.heightPx)>1)record.fidelityErrors.push(`Image extent differs: ${expected.id}`);
@@ -77,4 +81,4 @@ async function main(argv=process.argv.slice(2)) {
   return records;
 }
 if(require.main===module) main().catch(e=>{console.error(e.message);process.exitCode=1;});
-module.exports={main,runCase,argumentsFor,engines};
+module.exports={main,runCase,argumentsFor,engines,adapters};

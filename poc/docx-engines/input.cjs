@@ -12,6 +12,7 @@ function documentHtml(body) { return `<!doctype html><html><head><meta charset="
 async function prepare(html, { baseDir = __dirname, imageMode = 'embedded', workDir, chromium, preprocess = false } = {}) {
   if (!['embedded', 'linked'].includes(imageMode)) throw new Error('Unknown image mode');
   const sourceHash = hash(html);
+  const originalHtml = html;
   if (preprocess) {
     if (!workDir) throw new Error('Dynamic rendering needs a work directory');
     if(html.includes('class="mermaid"')) {
@@ -55,7 +56,7 @@ async function prepare(html, { baseDir = __dirname, imageMode = 'embedded', work
     element.setAttribute('alt', `poc-asset:${id}`);
     element.setAttribute('src', `data:${mime};base64,${bytes.toString('base64')}`);
   }
-  return { html:root.toString(), css, sourceHash, inputHash:hash(root.toString()), assets, imageMode,
+  return { html:root.toString(), originalHtml, css, sourceHash, inputHash:hash(root.toString()), assets, imageMode,
     page:{widthTwips:11906,heightTwips:16838} };
 }
 module.exports = { prepare, hash, documentHtml, css };
