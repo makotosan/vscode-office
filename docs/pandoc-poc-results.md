@@ -57,6 +57,28 @@ Windows/MacのWordで開く→編集/保存2回→閉じる→再オープンは
 
 ## 再実行
 
+### Windows表示のユーザー確認と互換モード対照（2026-10-26）
+
+ユーザーがarticle18-pandoc.docxをWindows版Wordで開き、SVG2点は正常表示、
+タイトルバーは「互換モード」と報告。添付画面でもSVG2点とその表示を確認した。
+画面に「保存済み」はあるが、編集/保存2回・再オープンの成功とは扱わない。
+修復要求の有無、Word版/build、Macでの結果はこの報告だけでは未確認。
+
+出力のsettings.xmlにcompatibilityMode指定がないことを確認した。
+[Microsoft仕様](https://learn.microsoft.com/en-us/openspecs/office_standards/ms-docx/90138c4d-eb18-4edc-aa6c-dfb799cb1d0d)
+に基づきmode 15を明示する対照コピーを作成。原因候補の切り分けであり、
+タイトルバーの通常モード化を確認済みとはしない。
+
+- 対照: `article18-pandoc-mode15.docx`（同じ私的診断フォルダー）。
+- SHA-256: `e7c64254e2e7fa9e6ce1823d10162bee5ec798ce7d4e7213d1e73d8a01a76408`。
+- ZIP内の変更はword/settings.xmlだけ。本文・表・画像・relationshipは元バイトを保持。
+- SDK Office2019でエラー0。既存コピーは上書きしていない。
+- Pandocのraw比較結果と通常の出力経路には変更を加えていない。
+
+`compatibility.cjs`は新しい出力パスへの明示実行だけで使用する。
+この対照で通常モード/SVG保持を実機確認してから、参照テンプレートへの設定を
+検討する。UI表示だけを変えてMac保存クラッシュも解消したとは判断しない。
+
 `PANDOC_BIN`を実行ファイルに設定する。通常の4候補比較は変えていない。
 
 ```sh

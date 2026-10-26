@@ -54,6 +54,10 @@ jobs:
           node --test test/pandoc.test.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           node evaluate.cjs --engineNames=pandoc --output=output/pandoc --preparedRoot=output/evaluation/attempt-1/legacy/embedded --validator=validator/bin/Release/net8.0/Validator.dll
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node compatibility.cjs output/pandoc/attempt-1/pandoc/embedded/svg/raw.docx output/pandoc/svg-mode15.docx
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet validator/bin/Release/net8.0/Validator.dll 2019 output/pandoc/svg-mode15.docx
       - run: node measure.cjs
         working-directory: poc/docx-engines
       - uses: actions/upload-artifact@v4
