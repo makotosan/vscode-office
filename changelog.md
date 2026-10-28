@@ -1,5 +1,18 @@
 # Change log
 
+# 4.2.5 2026-10-28
+
+- Package the merged main implementation, including the DOCX table, SVG Content
+  Type and compatibility-setting integrity corrections from PR #8.
+- Retain the existing HTML-to-DOCX generator. Do not include the unmerged SVG
+  reference experiment from PR #10 or the alternative-engine PoCs.
+- Rebuild desktop, webview and Markdown editor resources for this release.
+- The article18 acceptance cases passed on Word for Mac 16.114.1 (26102031),
+  Apple Silicon. Earlier Mac Word failures remain part of the investigation
+  history; this is not a guarantee for every document or Word version.
+- This is a local VSIX distribution of the makotosan/vscode-office fork;
+  Marketplace publication is not part of this release preparation.
+
 # 4.2.2 2026-10-15
 
 Markdown Editor:
