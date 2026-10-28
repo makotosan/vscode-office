@@ -1,4 +1,5 @@
 out/
+/BUILD-INFO.json
 dist/
 node_modules    
 .vscode-test/
